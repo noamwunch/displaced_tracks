@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import tensorflow as tf
 
 def compareAB(model1_name, model2_name, X_test_B, X_test_S, analysis_dir="Analysis/"):
+    """" This function compares two models """
     #Load best weights
     model = tf.keras.models.load_model("Models/"+model1_name)
     bkg_preds1 = model.predict(X_test_B).flatten()
