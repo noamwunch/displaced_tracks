@@ -145,8 +145,6 @@ rave::Covariance6D CovConvert(Track *track) {
 
 //Main code
 void GetTracksVertFirst(const char *inputFile, double dRjetsMax, int label, int max_ev, const char *result) {
-#include <chrono>
-
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     //Prepare to write
     ofstream myfile;

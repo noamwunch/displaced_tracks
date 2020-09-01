@@ -36,6 +36,7 @@ R__LOAD_LIBRARY(libDelphes)
 
 #include <iostream>
 #include <fstream>
+#include <chrono>
 #define PI 3.14159265359
 
 #else
@@ -50,31 +51,7 @@ using namespace std;
 double delta_phi_calculator(double phi1, double phi2) {
     return (abs(phi1 - phi2) <= PI) ? abs(phi1 - phi2) : (2 * PI - abs(phi1 - phi2));
 }
-// Write vertex information from track
-void WriteVert(vector <rave::Track> j_tracks, rave::VertexFactory factory, int n_jet) {
-    double xp = 0;
-    double yp = 0;
-    double zp = 0;
-    double chisq = 0;
-    int k = 1; // Vertex number (1=primary)
-    vector <rave::Vertex> jet_vertices = factory.create(jet_tracks); // Reconstruct vertices
-    // Loop over vertices
-    for (vector<rave::Vertex>::const_iterator r = jet_vertices.begin(); r != jet_vertices.end(); ++r) {
-        xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
-        yp = (*r).position().y() * 10;
-        zp = (*r).position().z() * 10;
-        chisq = (*r).chiSquared();
-        vector <rave::Track> tracks = (*r).tracks();
-        // Loop over vertex constituents
-        for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
-            vector<double> track5 = TrackInvConvert(t);
-            myfile << entry << " " << n_jet << " " << track5[0] << " " << track5[1] << " " << track5[2] << " "
-                   << track5[3] << " " << track5[4] <<
-                   " " << xp << " " << yp << " " << zp << " " << k << " " << chisq << endl;
-        }
-        k = k + 1;
-    }
-}
+
 // Convert 5D delphes track to 6D rave track
 rave::Vector6D TrackConvert(Track *track) {
     double eps = track->D0 * 0.1;  // also d0   //Delphes is in mm and rave is in cm
@@ -92,6 +69,7 @@ rave::Vector6D TrackConvert(Track *track) {
     rave::Vector6D track6d(x, y, z, px, py, pz);
     return track6d;
 }
+
 // Convert 6D rave to 5D delphes track
 vector<double> TrackInvConvert(vector<rave::Track>::const_iterator track6) {
     // Read 6D track
@@ -112,6 +90,7 @@ vector<double> TrackInvConvert(vector<rave::Track>::const_iterator track6) {
     vector<double> track5 = {pt, eta, phi, d0, dz};
     return track5;
 }
+
 // Convert 5D delphes covariance to 6D rave covariance
 rave::Covariance6D CovConvert(Track *track) {
     // Read 5D track
@@ -159,15 +138,17 @@ rave::Covariance6D CovConvert(Track *track) {
     double dyy = covd0d0 * cos(phi) * cos(phi) + d0 * d0 * sin(phi) * sin(phi) * covphiphi;
     double dyz = 0;
     double dzz = covz0z0;
-    rave::Covariance6D cov6d(dxx, dxy, dxz, dyy, dyz, dzz, dxpx, dxpy, dxpz, dypx, dypy, dypz, dzpx, dzpy, dzpz, dpxpx, dpxpy, dpxpz, dpypy, dpypz, dpzpz);
+    rave::Covariance6D cov6d(dxx, dxy, dxz, dyy, dyz, dzz, dxpx, dxpy, dxpz, dypx, dypy, dypz, dzpx, dzpy, dzpz, dpxpx,
+                             dpxpy, dpxpz, dpypy, dpypz, dpzpz);
     return cov6d;
 }
 
 //Main code
-void Example5D_track(const char *inputFile, double dRjetsMax) {
+void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, const char *result) {
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     //Prepare to write
     ofstream myfile;
-    myfile.open("Results.txt");
+    myfile.open(result);
     //Load Delphes and Rave libraries
     gSystem->Load("libDelphes");
     gSystem->Load("/usr/local/lib/libRaveBase");
@@ -202,12 +183,20 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
     double deltaEta1, deltaEta2;
     double deltaPhi1, deltaPhi2;
     double deltaR1t, deltaR2t;
+    double deltaR1;
+    double deltaR2;
     // Define closest jets variables
-    double EtaJ[2]
-    double PhiJ[2]
-    double PTJ[2]
-    bool JetJ[2]
-    int j = 0;
+    int j;
+    // Define track variables
+    double EtaT;
+    double PhiT;
+    // Define vertex variables
+    double xp;
+    double yp;
+    double zp;
+    double chisq;
+    int n_jet;
+    int n_vert;
     // Create vertex factory
     float Bz = 2.0;   // Magnetic field
     rave::ConstantMagneticField mfield(0., 0., Bz);
@@ -216,7 +205,7 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
     // Loop over all events (except first one)
     Long64_t entry;
     Int_t i, pdgCode;
-    for (entry = 1; entry < allEntries; ++entry) {
+    for (entry = 1; (entry < allEntries)&&(entry < max_ev); ++entry) {
         // Load Event
         treeReader->ReadEntry(entry);
         // Event info
@@ -224,14 +213,14 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
         met = (MissingET *) branchMissingET->At(0);
         myfile << "    MET: " << met->MET << endl; // Event mission energy
         // Get leading jets
-        EtaJ[2] = {-1000, -1000};
-        PhiJ[2] = {0, 0};
-        PTJ[2] = {0, 0};
-        JetJ[2] = {false, false};
+        double EtaJ[2] = {-1000, -1000};
+        double PhiJ[2] = {0, 0};
+        double PTJ[2] = {0, 0};
+        bool JetJ[2] = {false, false};
         j = 0;
         deltaR1 = 10000;
         deltaR2 = 10000;
-        if label == "S" //If the event is a signal
+        if (label == 1) //If the event is a signal
         {
             // Initialize variables
             p1Ass = false;
@@ -275,20 +264,21 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
                         EtaJ[0] = jet->Eta;
                         PhiJ[0] = jet->Phi;
                         PTJ[0] = jet->PT;
-                        JetJ[0] = true
+                        JetJ[0] = true;
                     }
                     if (deltaR2t < deltaR2) {
                         deltaR2 = deltaR2t;
                         EtaJ[1] = jet->Eta;
                         PhiJ[1] = jet->Phi;
                         PTJ[1] = jet->PT;
-                        JetJ[1] = true
+                        JetJ[1] = true;
                     }
                 }
             }
         } else { // If the event is background
             myfile << "    Not a signal" << endl;
-           //Get information from the two leading jets
+            //Get information from the two leading jets
+            j = 0;
             while (j < 2 && j < branchJet->GetEntriesFast()) {
                 //Get jet
                 jet = (Jet *) branchJet->At(j);
@@ -310,20 +300,19 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
                    << endl;
         if (JetJ[0])
             myfile << "entry Jet PT Eta Phi D0 DZ" << endl;
-
+        // Vertexing
         vector <rave::Track> jet1_tracks;
         vector <rave::Track> jet2_tracks;
         //Loop over tracks
         for (i = 0; i < branchTrack->GetEntriesFast(); ++i) {
             //Get track
             track = (Track *) branchTrack->At(i);
-            //Read position track
-            double EtaT = track->Eta;
-            double PhiT = track->Phi;
+            // Convert to 6D rave track and push into tracks vector
+            EtaT = track->Eta;
+            PhiT = track->Phi;
             //Check for distance from both jets
-            double deltaR1 = pow(pow(EtaT - EtaJ[0], 2) + pow(delta_phi_calculator(PhiT, PhiJ[0]), 2), 0.5);
-            double deltaR2 = pow(pow(EtaT - EtaJ[1], 2) + pow(delta_phi_calculator(PhiT, PhiJ[1]), 2), 0.5);
-            //Write information accordingly
+            deltaR1 = pow(pow(EtaT - EtaJ[0], 2) + pow(delta_phi_calculator(PhiT, PhiJ[0]), 2), 0.5);
+            deltaR2 = pow(pow(EtaT - EtaJ[1], 2) + pow(delta_phi_calculator(PhiT, PhiJ[1]), 2), 0.5);
             if (deltaR1 < dRjetsMax) {
                 rave::Vector6D track6d = TrackConvert(track);
                 rave::Covariance6D cov6d = CovConvert(track);
@@ -335,14 +324,49 @@ void Example5D_track(const char *inputFile, double dRjetsMax) {
                 jet2_tracks.push_back(rave::Track(track6d, cov6d, track->Charge, 0.0, 0.0));
             }
         }
-        WriteVert(jet1_tracks, factory, 1)
-        WriteVert(jet2_tracks, factory, 2)
-    }
-}
 
-myfile << "Done" << endl;
-delete treeReader;
-delete chain;
+        n_vert = 1; // Vertex number (1=primary)
+        vector <rave::Vertex> jet1_vertices = factory.create(jet1_tracks); // Reconstruct vertices
+        // Loop over vertices
+        for (vector<rave::Vertex>::const_iterator r = jet1_vertices.begin(); r != jet1_vertices.end(); ++r) {
+            xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
+            yp = (*r).position().y() * 10;
+            zp = (*r).position().z() * 10;
+            chisq = (*r).chiSquared();
+            vector <rave::Track> tracks = (*r).tracks();
+            // Loop over vertex constituents
+            for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
+                vector<double> track5 = TrackInvConvert(t);
+                myfile << n_vert << " " << 1 << " " << track5[0] << " " << track5[1] << " " << track5[2] << " "
+                       << track5[3] << " " << track5[4] << " "
+                       << xp << " " << yp << " " << zp << " " << chisq << endl;
+                }
+            n_vert = n_vert + 1;
+        }
+        n_vert = 1; // Vertex number (1=primary)
+        vector <rave::Vertex> jet2_vertices = factory.create(jet2_tracks); // Reconstruct vertices
+        // Loop over vertices
+        for (vector<rave::Vertex>::const_iterator r = jet2_vertices.begin(); r != jet2_vertices.end(); ++r) {
+            xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
+            yp = (*r).position().y() * 10;
+            zp = (*r).position().z() * 10;
+            chisq = (*r).chiSquared();
+            vector <rave::Track> tracks = (*r).tracks();
+            // Loop over vertex constituents
+            for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
+                vector<double> track5 = TrackInvConvert(t);
+                myfile << n_vert << " " << 2 << " " << track5[0] << " " << track5[1] << " " << track5[2] << " "
+                       << track5[3] << " " << track5[4] << " "
+                       << xp << " " << yp << " " << zp << " " << chisq << endl;
+            }
+            n_vert = n_vert + 1;
+        }
+    }
+    myfile << "Done" << endl;
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    std::cout << "Elapsed time = " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " s" << endl;
+    delete treeReader;
+    delete chain;
 }
 
 
