@@ -183,6 +183,87 @@ def events_to_df_vert(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cu
 
     return jets_df
 
+def events_to_df_vert1(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT", trunc=True):
+    """Takes event list path (string) and returns a pandas Dataframe with jet info"""
+    # PT cut
+    PT_min = PT_cut[0]
+    PT_max = PT_cut[1]
+    ev_num = 0  # Event number
+    met = 0  # Missing transverse energy
+    jets_list = []  # List of jet features
+    jet1_info = []
+    jet2_info = []
+    jet1_accept = False
+    jet2_accept = False
+    jet1_vert = []
+    jet2_vert = []
+    if sort == "vert_disp":
+        sort = 1
+    if type(events_paths) != list:
+        events_paths = [events_paths]
+    for events_path in events_paths:
+        with open(events_path) as events:
+            for line in events:
+                row = line.split()
+                # New event
+                if row[0] == "--":
+                    if ev_num > 0:
+                        if jet1_accept and jet1_vert:
+                            jet1_vert = np.array(jet1_vert, dtype="float")
+                            if sort:
+                                jet1_vert = jet1_vert[jet1_vert[:, sort].argsort()[::-1]]
+                            jets_list.append(jet1_info + list(jet1_vert.T))
+                        if jet2_accept and jet2_vert:
+                            jet2_vert = np.array(jet2_vert, dtype="float")
+                            if sort:
+                                jet2_vert = jet2_vert[jet2_vert[:, sort].argsort()[::-1]]
+                            jets_list.append(jet2_info + list(jet2_vert.T))
+                        jet1_accept = False
+                        jet2_accept = False
+                        jet1_vert = []
+                        jet2_vert = []
+                    ev_num += 1
+                    if ev_num > max_ev:
+                        break
+                    continue
+                # MET
+                if row[0] == "MET:":
+                    met = row[1]
+                    continue
+                # General jet info
+                if row[0] == "Jet":
+                    if int(row[1]) == 1:
+                        jet1_accept = (float(row[3]) > PT_min) and (float(row[3]) < PT_max)
+                        if jet1_accept:
+                            jet1_info = [ev_num, row[1], met, row[3], row[5], row[7]]
+                        continue
+                    if int(row[1]) == 2:
+                        jet2_accept = (float(row[3]) > PT_min) and (float(row[3]) < PT_max)
+                        if jet2_accept:
+                            jet2_info = [ev_num, row[1], met, row[3], row[5], row[7]]
+                        continue
+                # Constituents info
+                if row[0].isdigit():
+                    if (int(row[1]) == 1) and jet1_accept:
+                        jet1_vert.append([int(row[0])]+row[2:])
+                        continue
+                    if (int(row[1]) == 2) and jet2_accept:
+                        jet2_vert.append([int(row[0])]+row[2:])
+                        continue
+                continue
+    jets_df = pd.DataFrame(jets_list,
+                           columns=["Event", "Jet", "MET", "jet_PT", "jet_Eta", "jet_Phi",
+                                    "n_vert", "vert_disp", "vert_mult", "vert_PT"])
+    #jets_df.drop("track_PID", axis=1, inplace=True)
+    dtypes = {"Event": np.int, "Jet": np.int, "MET": np.float, "jet_PT": np.float, "jet_Eta": np.float, "jet_Phi": np.float}
+    jets_df = jets_df.astype(dtypes)
+    vert_feats = ["n_vert", "vert_disp", "vert_mult", "vert_PT"]
+    if trunc:
+        jets_df[vert_feats] = jets_df[vert_feats].applymap(lambda x: np.append(x[:n_constits], [-10] * (n_constits - len(x))))
+    else:
+        jets_df[vert_feats] = jets_df[vert_feats].applymap(lambda x: np.array(x))
+    jets_df["label"] = label
+    return jets_df
 
 def scale_shift_feats(df):
     df.track_PT = df.track_PT / df.track_PT.map(np.max)
@@ -216,6 +297,25 @@ def for_nn(train_val, bkg_test, sig_test, feats, n_constits, val_frac=0.2):
 
     return X_train, y_train, X_val, y_val, X_test_B, X_test_S
 
+def for_nn_vert(train_val, feats, n_constits, val_frac=0.2):
+    # Split and reshape data
+    train_ind = np.arange(0, int(len(train_val) * (1 - val_frac)))
+    val_ind = np.arange(int(len(train_val) * (1 - val_frac)), len(train_val))
+
+    X_train = np.concatenate(np.array(train_val.copy().iloc[train_ind][feats]).flatten()).reshape((len(train_ind), n_constits, len(feats)))
+    y_train = train_val.iloc[train_ind]["label"]
+
+    X_val = np.concatenate(np.array(train_val.copy().iloc[val_ind][feats]).flatten()).reshape((len(val_ind), n_constits, len(feats)))
+    y_val = train_val.loc[val_ind]["label"]
+
+    print("num total examples = {}".format(len(train_val)))
+    print("num train examples = {}".format(len(train_ind)))
+    print("num validation examples = {}".format(len(val_ind)))
+    print("num Background examples = {}".format(len(train_val[train_val.label == 0])))
+    print("num Signal examples = {}".format(len(train_val[train_val.label == 1])))
+    print("X_train shape = {} \n".format(X_train.shape))
+
+    return X_train, y_train, X_val, y_val
 
 def events_to_df_test(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT"):
     """Takes event list path (string) and returns a pandas Dataframe with jet info"""

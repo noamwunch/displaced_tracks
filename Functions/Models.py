@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv1D, Flatten, Dropout, MaxPool1D, LSTM
+from tensorflow.keras.layers import Dense, Conv1D, Flatten, Dropout, MaxPool1D, LSTM, Masking
 from tensorflow.keras.optimizers import Adam
 
 def cnn(n_constits, feats):
@@ -47,6 +47,21 @@ def lstm_big(n_constits, feats):
     model.add(LSTM(50, activation='relu', return_sequences=False))
     #model.add(Dense(32, activation='relu'))
     model.add(Dense(100, activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
+
+    # Compile
+    sgd = keras.optimizers.Adam(learning_rate=0.001)
+    model.compile(optimizer=sgd, loss='binary_crossentropy')
+    model.summary()
+    print("")
+    return model
+
+def lstm_mask(n_constits, feats):
+    # Define model
+    model = Sequential()
+    model.add(Masking(mask_value=-10.0, input_shape=(n_constits, len(feats))))
+    model.add(LSTM(50, activation='relu', return_sequences=False))
+    model.add(Dense(16, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
 
     # Compile
