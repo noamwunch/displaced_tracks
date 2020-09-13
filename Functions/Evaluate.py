@@ -30,6 +30,7 @@ def test_model(model_name, X_test_B, X_test_S, analysis_dir="Analysis/"):
     plt.ylabel("Background rejection")
     plt.gcf().set_size_inches(8.3, 5.85)
     plt.savefig(analysis_dir + "ROC_" + model_name + ".pdf", format="pdf")
+    plt.savefig(analysis_dir + "ROC_" + model_name + ".svg", format="svg")
     plt.show()
 
 def compareAB(model1_name, model2_name, X_test_B, X_test_S, analysis_dir="Analysis/"):

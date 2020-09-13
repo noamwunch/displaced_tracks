@@ -184,7 +184,7 @@ def events_to_df_vert(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cu
     return jets_df
 
 def events_to_df_vert1(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT", trunc=True):
-    """Takes event list path (string) and returns a pandas Dataframe with jet info"""
+    """Takes event list path (string) and returns a pandas Dataframe with vertex info"""
     # PT cut
     PT_min = PT_cut[0]
     PT_max = PT_cut[1]
