@@ -1,0 +1,62 @@
+#Settings
+
+#This file contains the setting relevant for the simulation.
+
+#Paths
+MGPath = /home/noamwunch/Jet_tagging/MG5_aMC_v2_7_3
+PythiaPath = /home/noamwunch/Jet_tagging/pythia8244
+DelphesPath = /home/noamwunch/Jet_tagging/Delphes-3.4.2
+
+#Number of events
+nEvents = 10000
+
+#Model
+model = Category_1_and_2_nf_UFO
+
+#PDF
+PDFchoice = nn23lo1
+
+#Center of mass energy in GeV
+beamEnergy = 6500
+
+#nGauge (The N of SU(N))
+nGauge = 3
+
+#Number of dark quarks
+nf025ns = 1.0
+
+#Dark confinement scale in GeV
+lambdaD = 10.0
+
+#Dark quark mass in GeV
+DquarkMass = 1.0
+
+#Dark pion mass in GeV
+DpionMass = 10.0
+
+#Dark rho mass in GeV
+DrhoMass = 21.0
+
+#Probability to create vector meson
+ProbV = 0.75
+
+#Keep results (1: Yes  0: No)
+KeepR = 1
+
+#Minimum pT of jet in GeV
+pTMin = 150
+
+#Maximum pT of jet in GeV
+pTMax = 200
+
+#Radius around jet axis in which to keep tracks
+dRMax = 0.7
+
+#Decay length of dark pions in mm
+decayLength = 0.5
+
+#p p > nf nf~ /xsdl xsul xsdr
+
+#List of processes (Maximum 10. If more are needed, change Setting_reader.sh or ask Hugues.)
+p p > b b~
+

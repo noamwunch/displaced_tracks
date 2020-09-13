@@ -1,0 +1,72 @@
+####################
+#   Summary file   #
+####################
+
+Number of events
+10000
+
+Number of points in parameter space
+1
+
+Model
+Category_1_and_2_nf_UFO
+
+PDF used
+nn23lo1
+
+nGauge (The N of SU(N)))
+3
+
+Number of dark quarks
+1.0
+
+Dark confinement scale in GeV
+10.0
+
+Dark quark mass in GeV
+1.0
+
+Dark pion mass in GeV
+10.0
+
+Dark rho mass in GeV
+21.0
+
+Probability to create dark rho
+0.75
+
+Minimum pT of jet in GeV
+150
+
+Maximum pT of jet in GeV
+200
+
+Decay length of dark pions in mm
+0.000001
+
+MadGraph path
+/home/hugues/Desktop/My_files/Physics/HEP/MG5_aMC_v2_6_7
+
+Pythia path
+/home/hugues/Desktop/My_files/Physics/HEP/pythia8243
+
+Delphes path
+/home/hugues/Desktop/My_files/Physics/HEP/Delphes-3.4.2
+
+Events kept
+Yes
+
+Processes
+generate p p > nf nf~ /xsdl xsul xsdr
+
+Starting time
+Thu, Jul 16, 2020 11:21:19 PM
+
+Completion time
+Sun Jul 19 18:04:44 IDT 2020
+
+Completion time
+Sun Jul 19 18:10:43 IDT 2020
+
+Completion time
+Sun Jul 19 18:12:23 IDT 2020

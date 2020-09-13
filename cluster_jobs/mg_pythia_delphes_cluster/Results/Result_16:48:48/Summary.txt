@@ -1,0 +1,63 @@
+####################
+#   Summary file   #
+####################
+
+Number of events
+bb1
+
+Number of points in parameter space
+1
+
+Model
+Category_1_and_2_nf_UFO
+
+PDF used
+nn23lo1
+
+nGauge (The N of SU(N)))
+3
+
+Number of dark quarks
+1.0
+
+Dark confinement scale in GeV
+10.0
+
+Dark quark mass in GeV
+1.0
+
+Dark pion mass in GeV
+10.0
+
+Dark rho mass in GeV
+21.0
+
+Probability to create dark rho
+0.75
+
+Minimum pT of jet in GeV
+150
+
+Maximum pT of jet in GeV
+200
+
+Decay length of dark pions in mm
+0.5
+
+MadGraph path
+/gpfs0/kats/projects/MG5_aMC_v2_6_5
+
+Pythia path
+/gpfs0/kats/projects/Jet_tagging/pythia8240
+
+Delphes path
+/gpfs0/kats/projects/Delphes-3.4.2
+
+Events kept
+Yes
+
+Processes
+generate p p > b b~
+
+Starting time
+Sun Sep 13 16:48:48 IDT 2020
