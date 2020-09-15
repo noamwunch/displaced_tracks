@@ -1,0 +1,14 @@
+TODO
+1. Single track vertex.
+2. Event level multiplicity.
+3. Assigne vertices to jet as opposed to tracks.
+4. Primary vertex multiplicity.
+5. Momentum fraction in primary vertex.
+
+6. Vertex deltaR
+7. Vertex Eta
+8. Vertex Phi
+9. With without masking
+
+10. Autoencoder
+11. 

@@ -351,8 +351,6 @@ def scale_shift_feats(df):
     df.track_Eta = (df.track_Eta - df.jet_Eta) * 10
     df.track_Phi = (df.track_Phi - df.jet_Phi) * 10
     df.track_DZ = df.track_DZ / np.cosh(df.jet_Eta)
-    df.track_D0 = (df.jet_PT * np.cos(df.jet_Phi) * df.track_Xd + df.jet_PT * np.sin(df.jet_Phi) * df.track_Yd)\
-                      .map(np.sign) * df.track_D0.map(np.abs)
 
 def scale_shift_feats_vert(df):
     df.track_PT = df.track_PT / df.track_PT.map(np.max)
@@ -405,6 +403,31 @@ def for_nn_vert(train_val, feats, n_constits, val_frac=0.2):
     print("X_train shape = {} \n".format(X_train.shape))
 
     return X_train, y_train, X_val, y_val
+
+def for_nn_vert1(train_val, bkg_test, sig_test, feats, n_constits, val_frac=0.2):
+    # Split and reshape data
+    train_ind = np.arange(0, int(len(train_val) * (1 - val_frac)))
+    val_ind = np.arange(int(len(train_val) * (1 - val_frac)), len(train_val))
+
+    X_train = np.concatenate(np.array(train_val.copy().iloc[train_ind][feats]).flatten()).reshape((len(train_ind), n_constits, len(feats)))
+    y_train = train_val.iloc[train_ind]["label"]
+
+    X_val = np.concatenate(np.array(train_val.copy().iloc[val_ind][feats]).flatten()).reshape((len(val_ind), n_constits, len(feats)))
+    y_val = train_val.loc[val_ind]["label"]
+
+    X_test_B = np.concatenate(np.array(bkg_test.copy()[feats]).flatten()).reshape(
+        (len(bkg_test), n_constits, len(feats)))
+    X_test_S = np.concatenate(np.array(sig_test.copy()[feats]).flatten()).reshape(
+        (len(sig_test), n_constits, len(feats)))
+
+    print("num total examples = {}".format(len(train_val)))
+    print("num train examples = {}".format(len(train_ind)))
+    print("num validation examples = {}".format(len(val_ind)))
+    print("num Background examples = {}".format(len(train_val[train_val.label == 0])))
+    print("num Signal examples = {}".format(len(train_val[train_val.label == 1])))
+    print("X_train shape = {} \n".format(X_train.shape))
+
+    return X_train, y_train, X_val, y_val, X_test_B, X_test_S
 
 def events_to_df_test(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT"):
     """Takes event list path (string) and returns a pandas Dataframe with jet info"""

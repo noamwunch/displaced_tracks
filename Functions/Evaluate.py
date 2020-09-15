@@ -52,6 +52,8 @@ def compareAB(model1_name, model2_name, X_test_B, X_test_S, analysis_dir="Analys
         bkg_eff_temp = np.sum(bkg_preds1 > thresh)/len(bkg_preds1)
         sig_eff_temp = np.sum(sig_preds1 > thresh)/len(sig_preds1)
         sig_eff.append(sig_eff_temp)
+        if bkg_eff_temp == 0:
+            bkg_eff_temp = 1e-5
         bkg_eff.append(1/bkg_eff_temp)
         if abs(sig_eff_temp-0.5) < abs(sig_eff_50-0.5):
             sig_eff_50 = sig_eff_temp
@@ -68,6 +70,8 @@ def compareAB(model1_name, model2_name, X_test_B, X_test_S, analysis_dir="Analys
         bkg_eff_temp = np.sum(bkg_preds2 > thresh)/len(bkg_preds2)
         sig_eff_temp = np.sum(sig_preds2 > thresh)/len(sig_preds2)
         sig_eff.append(sig_eff_temp)
+        if bkg_eff_temp == 0:
+            bkg_eff_temp = 1e-5
         bkg_eff.append(1/bkg_eff_temp)
         if abs(sig_eff_temp-0.5) < abs(sig_eff_50-0.5):
             sig_eff_50 = sig_eff_temp
@@ -102,6 +106,8 @@ def compareAB1(model1_name, model2_name, X_test_B1, X_test_S1, X_test_B2, X_test
         bkg_eff_temp = np.sum(bkg_preds1 > thresh)/len(bkg_preds1)
         sig_eff_temp = np.sum(sig_preds1 > thresh)/len(sig_preds1)
         sig_eff.append(sig_eff_temp)
+        if bkg_eff_temp == 0:
+            bkg_eff_temp = 1e-5
         bkg_eff.append(1/bkg_eff_temp)
         if abs(sig_eff_temp-0.5) < abs(sig_eff_50-0.5):
             sig_eff_50 = sig_eff_temp
@@ -118,6 +124,8 @@ def compareAB1(model1_name, model2_name, X_test_B1, X_test_S1, X_test_B2, X_test
         bkg_eff_temp = np.sum(bkg_preds2 > thresh)/len(bkg_preds2)
         sig_eff_temp = np.sum(sig_preds2 > thresh)/len(sig_preds2)
         sig_eff.append(sig_eff_temp)
+        if bkg_eff_temp == 0:
+            bkg_eff_temp = 1e-5v
         bkg_eff.append(1/bkg_eff_temp)
         if abs(sig_eff_temp-0.5) < abs(sig_eff_50-0.5):
             sig_eff_50 = sig_eff_temp
