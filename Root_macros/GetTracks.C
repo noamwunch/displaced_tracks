@@ -182,6 +182,12 @@ void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, c
         for (i = 0; i < branchTrack->GetEntriesFast(); ++i) {
             //Get track
             track = (Track *) branchTrack->At(i);
+            // Compute deltaR
+            EtaT = track->Eta;
+            PhiT = track->Phi;
+            //Check for distance from both jets
+            deltaR1 = pow(pow(EtaT - EtaJ[0], 2) + pow(delta_phi_calculator(PhiT, PhiJ[0]), 2), 0.5);
+            deltaR2 = pow(pow(EtaT - EtaJ[1], 2) + pow(delta_phi_calculator(PhiT, PhiJ[1]), 2), 0.5);
             //Write information accordingly
             if (deltaR1 < dRjetsMax) {
                 myfile << entry << " " << 1 << " " << track->PT << " " << track->Eta << " " << track->Phi << " " << track->D0 << " " << track->DZ << endl;
