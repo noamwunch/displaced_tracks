@@ -273,6 +273,14 @@ def scale_shift_feats(df):
     df.track_D0 = (df.jet_PT * np.cos(df.jet_Phi) * df.track_Xd + df.jet_PT * np.sin(df.jet_Phi) * df.track_Yd)\
                       .map(np.sign) * df.track_D0.map(np.abs)
 
+def scale_shift_feats_vert(df):
+    df.track_PT = df.track_PT / df.track_PT.map(np.max)
+    df.track_Eta = (df.track_Eta - df.jet_Eta) * 10
+    df.track_Phi = (df.track_Phi - df.jet_Phi) * 10
+    df.track_DZ = df.track_DZ / np.cosh(df.jet_Eta)
+    df.track_D0 = (df.jet_PT * np.cos(df.jet_Phi) * df.track_Xd + df.jet_PT * np.sin(df.jet_Phi) * df.track_Yd)\
+                      .map(np.sign) * df.track_D0.map(np.abs)
+
 def for_nn(train_val, bkg_test, sig_test, feats, n_constits, val_frac=0.2):
 
     # Split and reshape data

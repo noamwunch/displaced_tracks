@@ -11,24 +11,8 @@ Comments:
 - Based on Example3.c
 */
 
-#if defined(_MSC_VER)
-# define RaveDllExport __declspec(dllexport)
-#else
-# define RaveDllExport
-#endif
 
 #ifdef __CLING__
-R__LOAD_LIBRARY(/usr/local/lib/libRaveBase.so)
-R__LOAD_LIBRARY(/usr/local/lib/libRaveCore.so)
-R__LOAD_LIBRARY(/usr/local/lib/libRaveVertex.so)
-
-#include "/usr/local/include/rave/Version.h"
-#include "/usr/local/include/rave/VertexFactory.h"
-#include "/usr/local/include/rave/Vertex.h"
-#include "/usr/local/include/rave/Track.h"
-#include "/usr/local/include/rave/Covariance6D.h"
-#include "/usr/local/include/rave/Vector6D.h"
-#include "/usr/local/include/rave/ConstantMagneticField.h"
 
 R__LOAD_LIBRARY(libDelphes)
 #include "classes/DelphesClasses.h"
@@ -52,109 +36,14 @@ double delta_phi_calculator(double phi1, double phi2) {
     return (abs(phi1 - phi2) <= PI) ? abs(phi1 - phi2) : (2 * PI - abs(phi1 - phi2));
 }
 
-// Convert 5D delphes track to 6D rave track
-rave::Vector6D TrackConvert(Track *track) {
-    double eps = track->D0 * 0.1;  // also d0   //Delphes is in mm and rave is in cm
-    double z0 = track->DZ * 0.1;  // z0
-    double pt = track->PT;
-    double phi = track->Phi;              // phi_0 (for us)
-    double ctth = track->CtgTheta;
-    double q = track->Charge;
-    double x = eps * sin(phi);
-    double y = -eps * cos(phi);
-    double z = z0;
-    double px = pt / q * cos(phi);
-    double py = pt / q * sin(phi);
-    double pz = pt / q * ctth;
-    rave::Vector6D track6d(x, y, z, px, py, pz);
-    return track6d;
-}
-
-// Convert 6D rave to 5D delphes track
-vector<double> TrackInvConvert(vector<rave::Track>::const_iterator track6) {
-    // Read 6D track
-    double x = track6->position().x();
-    double y = track6->position().y();
-    double z = track6->position().z();
-    double px = track6->momentum().x();
-    double py = track6->momentum().y();
-    double pz = track6->momentum().z();
-    double charge = double(track6->charge());
-    // Compute 5D track
-    double pt = sqrt(pow(px, 2) + pow(py, 2)) * abs(charge);
-    double theta = atan2(pt, pz * charge);
-    double eta = -log(tan(0.5 * theta));
-    double phi = atan2(py * charge, px * charge);
-    double d0 = sqrt(pow(x, 2) + pow(y, 2)) * abs(charge) * 10;
-    double dz = z * 10;
-    vector<double> track5 = {pt, eta, phi, d0, dz};
-    return track5;
-}
-
-// Convert 5D delphes covariance to 6D rave covariance
-rave::Covariance6D CovConvert(Track *track) {
-    // Read 5D track
-    double pt = track->PT;
-    double phi = track->Phi;
-    double eta = track->Eta;
-    double px = pt * cos(phi);
-    double py = pt * sin(phi);
-    double pz = pt * sinh(eta);
-    double ctth = track->CtgTheta;
-    double d0 = track->D0 * 0.1; //epsilon
-    double q = double(track->Charge);
-    // Read 5D errors
-    double deld0 = (track->ErrorD0) * 0.1; //in cm
-    double delz0 = (track->ErrorDZ) * 0.1; //in cm
-    double delpt = track->ErrorPT; //in GeV/c
-    double delphi = track->ErrorPhi;
-    double delctth = track->ErrorCtgTheta;
-    double deltht = delctth / (1 + ctth * ctth);
-    // Compute 5D covariance
-    double covd0d0 = deld0 * deld0;
-    double covz0z0 = delz0 * delz0;
-    double covptpt = delpt * delpt;
-    double covphiphi = delphi * delphi;
-    double covthth = deltht * deltht;
-    // Compute 5D covariance
-    double dpxpx = py * py * covphiphi + covptpt * cos(phi) * cos(phi) / (q * q);
-    double dpxpy = -px * py * covphiphi + covptpt * cos(phi) * sin(phi) / (q * q);
-    double dpxpz = covptpt * cos(phi) * ctth / (q * q);// + 0.00000001;
-    double dxpx = -d0 * py * covphiphi * cos(phi);
-    double dypx = -d0 * py * covphiphi * sin(phi);
-    double dpypy = px * px * covphiphi + covptpt * sin(phi) * sin(phi) / (q * q);
-    double dpypz = covptpt * sin(phi) * ctth / (q * q);// + 0.0000001;
-    double dxpy = d0 * px * covphiphi * cos(phi);
-    double dypy = d0 * px * covphiphi * sin(phi);
-    double dypz = 0;
-    double dxpz = 0;
-    double dzpx = 0;
-    double dzpy = 0;
-    double dzpz = 0;
-    double dpzpz = covptpt * ctth * ctth + pt * pt * covthth * pow((1 + ctth * ctth), 2) / (q * q);
-    double dxx = d0 * d0 * cos(phi) * cos(phi) * covphiphi + covd0d0 * sin(phi) * sin(phi);
-    double dxy = (-covd0d0 + d0 * d0 * covphiphi) * cos(phi) * sin(phi);
-    double dxz = 0;
-    double dyy = covd0d0 * cos(phi) * cos(phi) + d0 * d0 * sin(phi) * sin(phi) * covphiphi;
-    double dyz = 0;
-    double dzz = covz0z0;
-    rave::Covariance6D cov6d(dxx, dxy, dxz, dyy, dyz, dzz, dxpx, dxpy, dxpz, dypx, dypy, dypz, dzpx, dzpy, dzpz, dpxpx,
-                             dpxpy, dpxpz, dpypy, dpypz, dpzpz);
-    return cov6d;
-}
-
 //Main code
 void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, const char *result) {
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     //Prepare to write
     ofstream myfile;
     myfile.open(result);
-    //Load Delphes and Rave libraries
+    //Load Delphes libraries
     gSystem->Load("libDelphes");
-    gSystem->Load("/usr/local/lib/libRaveBase");
-    gSystem->Load("/usr/local/lib/libRaveCore");
-    gSystem->Load("/usr/local/lib/libRaveVertex");
-    gSystem->Load("/usr/local/lib/libRaveVertexKinematics");
     // Prepare to read root information
     TChain *chain = new TChain("Delphes");
     chain->Add(inputFile);
@@ -190,18 +79,7 @@ void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, c
     // Define track variables
     double EtaT;
     double PhiT;
-    // Define vertex variables
-    double xp;
-    double yp;
-    double zp;
-    double chisq;
-    int n_jet;
-    int n_vert;
-    // Create vertex factory
-    float Bz = 2.0;   // Magnetic field
-    rave::ConstantMagneticField mfield(0., 0., Bz);
-    rave::VertexFactory factory(mfield);
-    factory.setDefaultMethod("avr");
+
     // Loop over all events (except first one)
     Long64_t entry;
     Int_t i, pdgCode;
@@ -300,66 +178,17 @@ void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, c
                    << endl;
         if (JetJ[0])
             myfile << "entry Jet PT Eta Phi D0 DZ" << endl;
-        // Vertexing
-        vector <rave::Track> jet1_tracks;
-        vector <rave::Track> jet2_tracks;
         //Loop over tracks
         for (i = 0; i < branchTrack->GetEntriesFast(); ++i) {
             //Get track
             track = (Track *) branchTrack->At(i);
-            // Convert to 6D rave track and push into tracks vector
-            EtaT = track->Eta;
-            PhiT = track->Phi;
-            //Check for distance from both jets
-            deltaR1 = pow(pow(EtaT - EtaJ[0], 2) + pow(delta_phi_calculator(PhiT, PhiJ[0]), 2), 0.5);
-            deltaR2 = pow(pow(EtaT - EtaJ[1], 2) + pow(delta_phi_calculator(PhiT, PhiJ[1]), 2), 0.5);
+            //Write information accordingly
             if (deltaR1 < dRjetsMax) {
-                rave::Vector6D track6d = TrackConvert(track);
-                rave::Covariance6D cov6d = CovConvert(track);
-                jet1_tracks.push_back(rave::Track(track6d, cov6d, track->Charge, 0.0, 0.0));
+                myfile << entry << " " << 1 << " " << track->PT << " " << track->Eta << " " << track->Phi << " " << track->D0 << " " << track->DZ << endl;
             }
             if (deltaR2 < dRjetsMax) {
-                rave::Vector6D track6d = TrackConvert(track);
-                rave::Covariance6D cov6d = CovConvert(track);
-                jet2_tracks.push_back(rave::Track(track6d, cov6d, track->Charge, 0.0, 0.0));
+                myfile << entry << " " << 2 << " " << track->PT << " " << track->Eta << " " << track->Phi << " " << track->D0 << " " << track->DZ << endl;
             }
-        }
-
-        n_vert = 1; // Vertex number (1=primary)
-        vector <rave::Vertex> jet1_vertices = factory.create(jet1_tracks); // Reconstruct vertices
-        // Loop over vertices
-        for (vector<rave::Vertex>::const_iterator r = jet1_vertices.begin(); r != jet1_vertices.end(); ++r) {
-            xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
-            yp = (*r).position().y() * 10;
-            zp = (*r).position().z() * 10;
-            chisq = (*r).chiSquared();
-            vector <rave::Track> tracks = (*r).tracks();
-            // Loop over vertex constituents
-            for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
-                vector<double> track5 = TrackInvConvert(t);
-                myfile << n_vert << " " << 1 << " " << track5[0] << " " << track5[1] << " " << track5[2] << " "
-                       << track5[3] << " " << track5[4] << " "
-                       << xp << " " << yp << " " << zp << " " << chisq << endl;
-                }
-            n_vert = n_vert + 1;
-        }
-        n_vert = 1; // Vertex number (1=primary)
-        vector <rave::Vertex> jet2_vertices = factory.create(jet2_tracks); // Reconstruct vertices
-        // Loop over vertices
-        for (vector<rave::Vertex>::const_iterator r = jet2_vertices.begin(); r != jet2_vertices.end(); ++r) {
-            xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
-            yp = (*r).position().y() * 10;
-            zp = (*r).position().z() * 10;
-            chisq = (*r).chiSquared();
-            vector <rave::Track> tracks = (*r).tracks();
-            // Loop over vertex constituents
-            for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
-                vector<double> track5 = TrackInvConvert(t);
-                myfile << n_vert << " " << 2 << " " << track5[0] << " " << track5[1] << " " << track5[2] << " "
-                       << track5[3] << " " << track5[4] << " "
-                       << xp << " " << yp << " " << zp << " " << chisq << endl;
-            }
-            n_vert = n_vert + 1;
         }
     }
     myfile << "Done" << endl;
