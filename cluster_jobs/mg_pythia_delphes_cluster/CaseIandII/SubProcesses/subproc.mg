@@ -1,2 +1,5 @@
 P1_gg_bbx
-P1_qq_bbx
+P1_uux_bbx
+P1_ccx_bbx
+P1_ddx_bbx
+P1_ssx_bbx

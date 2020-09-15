@@ -35,7 +35,7 @@ define l+ = e+ mu+
 define l- = e- mu-
 define vl = ve vm vt
 define vl~ = ve~ vm~ vt~
-import model  Category_1_and_2_nf_UFO
+import model /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/models/ Category_1_and_2_nf_UFO
 Traceback (most recent call last):
   File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/extended_cmd.py", line 1515, in onecmd
     return self.onecmd_orig(line, **opt)
@@ -45,11 +45,12 @@ Traceback (most recent call last):
     self.cmd.do_import(self, *args, **opts)
   File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/madgraph_interface.py", line 5412, in do_import
     complex_mass_scheme=self.options['complex_mass_scheme'])
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 201, in import_model
-    model_path = find_ufo_path(model_name)
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 91, in find_ufo_path
-    raise UFOImportError("Path %s is not a valid pathname" % model_name)
-UFOImportError: Path Category_1_and_2_nf_UFO is not a valid pathname
+  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 239, in import_model
+    model = import_full_model(model_path, decay, prefix)
+  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 330, in import_full_model
+    (model_path, filename)
+UFOImportError: /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/models/ directory is not a valid UFO model: 
+ couplings.py is missing
                           MadGraph5_aMC@NLO Options    
                           ----------------    
         complex_mass_scheme 	:	False

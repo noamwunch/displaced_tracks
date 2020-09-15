@@ -2,27 +2,101 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c      written by the UFO converter
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
+ckmblock 1 mdl_cabi
+
+lambdadecayxscalar 1 mdl_lambdaXSl1
+
+lambdadecayxscalar 2 mdl_lambdaXSl2
+
+lambdadecayxscalar 3 mdl_lambdaXSl3
+
+lambdadecayxscalar 4 mdl_lambdaXSeR1
+
+lambdadecayxscalar 5 mdl_lambdaXSeR2
+
+lambdadecayxscalar 6 mdl_lambdaXSeR3
+
+lambdadecayxscalar 7 mdl_lambdaXSq1
+
+lambdadecayxscalar 8 mdl_lambdaXSq2
+
+lambdadecayxscalar 9 mdl_lambdaXSq3
+
+lambdadecayxscalar 10 mdl_lambdaXSuR1
+
+lambdadecayxscalar 11 mdl_lambdaXSuR2
+
+lambdadecayxscalar 12 mdl_lambdaXSuR3
+
+lambdadecayxscalar 13 mdl_lambdaXSdR1
+
+lambdadecayxscalar 14 mdl_lambdaXSdR2
+
+lambdadecayxscalar 15 mdl_lambdaXSdR3
+
 sminputs 1 aEWM1
 
 sminputs 2 mdl_Gf
 
 sminputs 3 aS
 
+yukawa 1 mdl_ymdo
+
+yukawa 2 mdl_ymup
+
+yukawa 3 mdl_yms
+
+yukawa 4 mdl_ymc
+
 yukawa 5 mdl_ymb
 
 yukawa 6 mdl_ymt
+
+yukawa 11 mdl_yme
+
+yukawa 13 mdl_ymm
 
 yukawa 15 mdl_ymtau
 
 mass 23 mdl_MZ
 
+mass 11 mdl_Me
+
+mass 13 mdl_MMU
+
+mass 15 mdl_MTA
+
+mass 2 mdl_MU
+
+mass 4 mdl_MC
+
 mass 6 mdl_MT
+
+mass 1 mdl_MD
+
+mass 3 mdl_MS
 
 mass 5 mdl_MB
 
 mass 25 mdl_MH
 
-mass 15 mdl_MTA
+mass 7000001 mdl_MXSnu
+
+mass 7000002 mdl_MXSeL
+
+mass 7000003 mdl_MXSeR
+
+mass 7000004 mdl_MXSuL
+
+mass 7000005 mdl_MXSdL
+
+mass 7000006 mdl_MXSuR
+
+mass 7000007 mdl_MXSdR
+
+mass 4900101 mdl_Mnf
+
+mass 8001234 mdl_Mneut
 
 decay 23 mdl_WZ
 
@@ -31,3 +105,21 @@ decay 24 mdl_WW
 decay 6 mdl_WT
 
 decay 25 mdl_WH
+
+decay 7000001 mdl_WXSnu
+
+decay 7000002 mdl_WXSeL
+
+decay 7000003 mdl_WXSeR
+
+decay 7000004 mdl_WXSuL
+
+decay 7000005 mdl_WXSdL
+
+decay 7000006 mdl_WXSuR
+
+decay 7000007 mdl_WXSdR
+
+decay 4900101 mdl_Wnf
+
+decay 8001234 mdl_Wneut

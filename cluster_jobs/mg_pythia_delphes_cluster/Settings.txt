@@ -11,7 +11,7 @@ DelphesPath = /gpfs0/kats/projects/Delphes-3.4.2
 nEvents = 10000
 
 #Model
-model = Category_1_and_2_nf_UFO
+model =Category_1_and_2_nf_UFO
 
 #PDF
 PDFchoice = nn23lo1

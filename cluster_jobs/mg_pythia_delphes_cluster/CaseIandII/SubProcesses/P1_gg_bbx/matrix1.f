@@ -346,15 +346,15 @@ C     ----------
       CALL VXXXXX(P(0,2),ZERO,NHEL(2),-1*IC(2),W(1,2))
       CALL OXXXXX(P(0,3),MDL_MB,NHEL(3),+1*IC(3),W(1,3))
       CALL IXXXXX(P(0,4),MDL_MB,NHEL(4),-1*IC(4),W(1,4))
-      CALL VVV1P0_1(W(1,1),W(1,2),GC_10,ZERO, FK_ZERO,W(1,5))
+      CALL VVV1P0_1(W(1,1),W(1,2),GC_13,ZERO, FK_ZERO,W(1,5))
 C     Amplitude(s) for diagram number 1
-      CALL FFV1_0(W(1,4),W(1,3),W(1,5),GC_11,AMP(1))
-      CALL FFV1_1(W(1,3),W(1,1),GC_11,MDL_MB, FK_ZERO,W(1,5))
+      CALL FFV1_0(W(1,4),W(1,3),W(1,5),GC_15,AMP(1))
+      CALL FFV1_1(W(1,3),W(1,1),GC_15,MDL_MB, FK_ZERO,W(1,5))
 C     Amplitude(s) for diagram number 2
-      CALL FFV1_0(W(1,4),W(1,5),W(1,2),GC_11,AMP(2))
-      CALL FFV1_2(W(1,4),W(1,1),GC_11,MDL_MB, FK_ZERO,W(1,5))
+      CALL FFV1_0(W(1,4),W(1,5),W(1,2),GC_15,AMP(2))
+      CALL FFV1_2(W(1,4),W(1,1),GC_15,MDL_MB, FK_ZERO,W(1,5))
 C     Amplitude(s) for diagram number 3
-      CALL FFV1_0(W(1,5),W(1,3),W(1,2),GC_11,AMP(3))
+      CALL FFV1_0(W(1,5),W(1,3),W(1,2),GC_15,AMP(3))
 C     JAMPs contributing to orders ALL_ORDERS=1
       JAMP(1,1)=+IMAG1*AMP(1)-AMP(2)
       JAMP(2,1)=-IMAG1*AMP(1)-AMP(3)

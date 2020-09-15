@@ -1,1 +1,1 @@
-../SubProcesses/P1_qq_bbx/nexternal.inc
+../SubProcesses/P1_ssx_bbx/nexternal.inc

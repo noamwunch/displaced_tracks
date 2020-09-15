@@ -35,5 +35,7 @@ define l+ = e+ mu+
 define l- = e- mu-
 define vl = ve vm vt
 define vl~ = ve~ vm~ vt~
+import model /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_py\
+thia_delphes_cluster/models/Category_1_and_2_nf_UFO
 generate p p > b b~
 output CaseIandII

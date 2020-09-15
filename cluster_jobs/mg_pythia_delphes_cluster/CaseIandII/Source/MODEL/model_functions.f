@@ -145,3 +145,13 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         ARG=LOG(COMNUM/ABS(COMNUM))/IIM
       ENDIF
       END
+
+      DOUBLE COMPLEX FUNCTION COT(Z)
+      IMPLICIT NONE
+      DOUBLE COMPLEX Z
+
+      COT = 1.000000D+00/TAN(DBLE(DBLE(Z)))
+
+      RETURN
+      END
+

@@ -21,6 +21,6 @@ export ROOT_INCLUDE_PATH="/gpfs0/kats/projects/rave/include:$ROOT_INCLUDE_PATH"
 
 cd /gpfs0/kats/projects/Delphes-3.4.2
 root -b << EOF
-.x $HOME/dark_jets/root_macros/Get.C("$1", 0.7, $2, $3, "$4")
+.x $HOME/dark_jets_repo/Root_macros/$1.C("$2", 0.7, $3, $4, "$5")
 EOF
 
