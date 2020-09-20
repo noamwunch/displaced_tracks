@@ -3,11 +3,19 @@
 #Script location
 ScriptPath=$(pwd)
 
+#Output path
+temp=$(sed -n -e '/^OutPath/p' Settings.txt)
+temp=$(echo $temp | xargs)
+OutPath=${temp#*=}
+
+echo 1
+
 #MadGraph path
 temp=$(sed -n -e '/^MGPath/p' Settings.txt)
 temp=$(echo $temp | xargs)
 MGPath=${temp#*=}
 
+echo 2
 #Pythia path
 temp=$(sed -n -e '/^PythiaPath/p' Settings.txt)
 temp=$(echo $temp | xargs)
@@ -22,7 +30,7 @@ DelphesPath=${temp#*=}
 temp=$(sed -n -e '/^nEvents/p' Settings.txt)
 temp=$(echo $temp | xargs)
 nEvents=$1
-
+echo 3
 #Read model to load
 temp=$(sed -n -e '/^model/p' Settings.txt)
 temp=$(echo $temp | xargs)

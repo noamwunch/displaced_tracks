@@ -2,7 +2,7 @@
 
 # Remove old events
 if [ $KeepR != 1 ]; then
-  cd $MGPath/CaseIandII
+  cd $ScriptPath/CaseIandII
   ./bin/madevent <<EOF
   remove run_a$i
   y

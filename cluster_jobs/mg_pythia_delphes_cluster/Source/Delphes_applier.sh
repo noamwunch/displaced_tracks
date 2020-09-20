@@ -2,7 +2,7 @@
 
 # Transfer card to Delphes and run Delphes
 cd $DelphesPath
-rm results.root
-./DelphesHepMC cards/Delphes_resolution.tcl results.root $PythiaPath/examples/main_Hidden_valley_6.hepmc
+
+./DelphesHepMC $ScriptPath/delphes_cards/Delphes_resolution.tcl $OutPath/$1.root $ScriptPath/examples/main_Hidden_valley_6.hepmc
 
 cd $ScriptPath

@@ -49,14 +49,14 @@ Block mass
    15 1.777000e+00 # MTA 
    23 9.118760e+01 # MZ 
    25 1.250000e+02 # MH 
-  4900101 10.0e+00 # Mnf 
-  7000001 50000e+00 # MXSnu 
-  7000002 50000e+00 # MXSeL 
-  7000003 50000e+00 # MXSeR 
-  7000004 50000e+00 # MXSuL 
-  7000005 50000e+00 # MXSdL 
-  7000006 50000e+00 # MXSuR 
-  7000007 50000e+00 # MXSdR 
+  4900101 e+00 # Mnf 
+  7000001 e+00 # MXSnu 
+  7000002 e+00 # MXSeL 
+  7000003 e+00 # MXSeR 
+  7000004 e+00 # MXSuL 
+  7000005 e+00 # MXSdL 
+  7000006 e+00 # MXSuR 
+  7000007 e+00 # MXSdR 
   8001234 1.000000e+00 # Mneut 
 ## Dependent parameters, given by model restrictions.
 ## Those values should be edited following the 

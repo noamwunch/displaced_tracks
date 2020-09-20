@@ -35,22 +35,24 @@ define l+ = e+ mu+
 define l- = e- mu-
 define vl = ve vm vt
 define vl~ = ve~ vm~ vt~
-import model /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/models/ Category_1_and_2_nf_UFO
+import model /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/models/Category_1_and_2_nf_UFO
+generate p p > nf nf~ /xsdl xsul xsdr
+output CaseIandII
 Traceback (most recent call last):
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/extended_cmd.py", line 1515, in onecmd
+  File "/gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3/madgraph/interface/extended_cmd.py", line 1515, in onecmd
     return self.onecmd_orig(line, **opt)
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/extended_cmd.py", line 1464, in onecmd_orig
+  File "/gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3/madgraph/interface/extended_cmd.py", line 1464, in onecmd_orig
     return func(arg, **opt)
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/master_interface.py", line 280, in do_import
-    self.cmd.do_import(self, *args, **opts)
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/madgraph/interface/madgraph_interface.py", line 5412, in do_import
-    complex_mass_scheme=self.options['complex_mass_scheme'])
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 239, in import_model
-    model = import_full_model(model_path, decay, prefix)
-  File "/gpfs0/kats/projects/MG5_aMC_v2_6_7/models/import_ufo.py", line 330, in import_full_model
-    (model_path, filename)
-UFOImportError: /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/models/ directory is not a valid UFO model: 
- couplings.py is missing
+  File "/gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3/madgraph/interface/master_interface.py", line 298, in do_output
+    self.cmd.do_output(self, line, *args, **opts)
+  File "/gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3/madgraph/interface/madgraph_interface.py", line 7791, in do_output
+    shutil.rmtree(self._export_dir)
+  File "/usr/lib64/python2.7/shutil.py", line 270, in rmtree
+    onerror(os.rmdir, path, sys.exc_info())
+  File "/usr/lib64/python2.7/shutil.py", line 268, in rmtree
+    os.rmdir(path)
+OSError: [Errno 39] Directory not empty: '/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII'
+Related File: /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII
                           MadGraph5_aMC@NLO Options    
                           ----------------    
         complex_mass_scheme 	:	False
@@ -76,7 +78,7 @@ UFOImportError: /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_de
                         OLP 	:	MadLoop
                     amcfast 	:	amcfast-config
                    applgrid 	:	applgrid-config
-                auto_update 	:	7
+                auto_update 	:	0 (user set)
          cluster_local_path 	:	None
            cluster_nb_retry 	:	1
               cluster_queue 	:	None (user set)
@@ -85,29 +87,29 @@ UFOImportError: /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_de
       cluster_status_update 	:	(600, 30)
           cluster_temp_path 	:	None
                cluster_type 	:	condor
-                    collier 	:	/gpfs0/kats/projects/MG5_aMC_v2_6_7/HEPTools/lib (user set)
+                    collier 	:	./HEPTools/lib
                cpp_compiler 	:	None
              crash_on_error 	:	False
-               delphes_path 	:	./Delphes
+               delphes_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
                  eps_viewer 	:	None
-        exrootanalysis_path 	:	./ExRootAnalysis
+        exrootanalysis_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
               f2py_compiler 	:	None
                     fastjet 	:	None (user set)
-           fortran_compiler 	:	None
+           fortran_compiler 	:	/usr/bin/gfortran (user set)
                       golem 	:	None (user set)
                  hepmc_path 	:	None (user set)
                   hwpp_path 	:	None (user set)
                      lhapdf 	:	lhapdf-config
           madanalysis5_path 	:	None (user set)
-           madanalysis_path 	:	./MadAnalysis
-  mg5amc_py8_interface_path 	:	/gpfs0/kats/projects/MG5_aMC_v2_6_7/HEPTools/MG5aMC_PY8_interface (user set)
-                      ninja 	:	/gpfs0/kats/projects/MG5_aMC_v2_6_7/HEPTools/lib (user set)
+           madanalysis_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
+  mg5amc_py8_interface_path 	:	None (user set)
+                      ninja 	:	./HEPTools/lib
         output_dependencies 	:	external
-            pythia-pgs_path 	:	./pythia-pgs
-               pythia8_path 	:	./HEPTools/pythia8
+            pythia-pgs_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
+               pythia8_path 	:	None (user set)
                     samurai 	:	None
-               syscalc_path 	:	./SysCalc
-                    td_path 	:	./td
+               syscalc_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
+                    td_path 	:	/gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster/CaseIandII/None (user set)
                 text_editor 	:	None
                 thepeg_path 	:	None (user set)
                     timeout 	:	60

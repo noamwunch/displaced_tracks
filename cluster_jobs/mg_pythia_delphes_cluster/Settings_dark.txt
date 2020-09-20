@@ -3,15 +3,16 @@
 #This file contains the setting relevant for the simulation.
 
 #Paths
-MGPath = /home/noamwunch/Jet_tagging/MG5_aMC_v2_7_3
-PythiaPath = /home/noamwunch/Jet_tagging/pythia8244
-DelphesPath = /home/noamwunch/Jet_tagging/Delphes-3.4.2
+MGPath = /gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3
+PythiaPath = /gpfs0/kats/projects/pythia8240
+DelphesPath = /gpfs0/kats/projects/Delphes-3.4.2
+OutPath = /gpfs0/kats/users/wunch/cluster_out
 
 #Number of events
 nEvents = 10000
 
 #Model
-model = Category_1_and_2_nf_UFO
+model =Category_1_and_2_nf_UFO
 
 #PDF
 PDFchoice = nn23lo1
@@ -54,8 +55,6 @@ dRMax = 0.7
 
 #Decay length of dark pions in mm
 decayLength = 0.5
-
-#p p > b b~
 
 #List of processes (Maximum 10. If more are needed, change Setting_reader.sh or ask Hugues.)
 p p > nf nf~ /xsdl xsul xsdr

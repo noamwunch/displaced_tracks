@@ -3,9 +3,10 @@
 #This file contains the setting relevant for the simulation.
 
 #Paths
-MGPath = /gpfs0/kats/projects/MG5_aMC_v2_6_7
+MGPath = /gpfs0/kats/users/wunch/projects/MG5_aMC_v2_7_3
 PythiaPath = /gpfs0/kats/projects/pythia8240
 DelphesPath = /gpfs0/kats/projects/Delphes-3.4.2
+OutPath = /gpfs0/kats/users/wunch/cluster_out
 
 #Number of events
 nEvents = 10000
@@ -55,8 +56,6 @@ dRMax = 0.7
 #Decay length of dark pions in mm
 decayLength = 0.5
 
-#p p > nf nf~ /xsdl xsul xsdr
-
 #List of processes (Maximum 10. If more are needed, change Setting_reader.sh or ask Hugues.)
-p p > b b~
+p p > nf nf~ /xsdl xsul xsdr
 
