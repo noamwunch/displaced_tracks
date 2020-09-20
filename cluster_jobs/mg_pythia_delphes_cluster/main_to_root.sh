@@ -19,8 +19,9 @@ export LD_LIBRARY_PATH="/gpfs0/kats/projects/python-build/lib:$LD_LIBRARY_PATH"
 export ROOT_DIR="/gpfs0/kats/projects/root-build2:$LD_LIBRARY_PATH"
 export CMAKE_PREFIX_PATH="/gpfs0/kats/projects/root-build2:$LD_LIBRARY_PATH"
 export ROOT_INCLUDE_PATH="/gpfs0/kats/projects/rave/include:$ROOT_INCLUDE_PATH"
-#stty erase '^?'
-#stty kill '^U'
+
+cp -r /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster $TMPDIR/mg_pythia_delphes_cluster
+cd $TMPDIR/mg_pythia_delphes_cluster
 
 #1) Read settings
 . ./Source/Setting_reader.sh $1

@@ -1,6 +1,6 @@
 #!/bin/bash
-n_files=2
-n_ev=5
+n_files=10
+n_ev=50000
 for ((i=0; i<n_files; i++))
 do	
         rm Settings.txt
