@@ -9,7 +9,7 @@ cp Hidden_valley_6.lhe $ScriptPath/examples
 # Implement rinv
 rvis=$(echo "x=1-$rinv; print 0; x" | bc)
 cd $ScriptPath/Cards
-cp main_hidden_valley_6.cmd $ScriptPath/examples
+cp main_hidden_valley_6.cmd $ScriptPath/examples/main_hidden_valley_6.cmd 
 cd $ScriptPath/examples
 sed -i -e "s/rinv/$rinv/g" main_hidden_valley_6.cmd
 sed -i -e "s/rvis/$rvis/g" main_hidden_valley_6.cmd

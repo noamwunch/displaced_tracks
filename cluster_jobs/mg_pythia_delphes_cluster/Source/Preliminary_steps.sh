@@ -22,6 +22,7 @@ echo "CaseI stuff"
 
 #Create the MG folder
 /usr/bin/python2.7 $MGPath/bin/mg5_aMC <<EOF
+set fortran_compiler /usr/bin/gfortran
 import model $ScriptPath/models/${model}
 ${process[0]}
 ${process[1]}
