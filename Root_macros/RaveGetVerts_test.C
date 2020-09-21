@@ -350,10 +350,15 @@ void RaveGetVerts_test(const char *inputFile, double dRjetsMax, int label, int m
             double vert_disp = pow(pow(xp, 2) + pow(yp, 2), 0.5);
             double vert_PT_j1 = pow(pow(vert_Px_j1, 2) + pow(vert_Py_j1, 2), 0.5);
             double vert_PT_j2 = pow(pow(vert_Px_j2, 2) + pow(vert_Py_j2, 2), 0.5);
+            // Some more track features and write
+            double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
+            double vert_Phi = atan2(yp, xp);
+            double vert_Theta = atan2(vert_D0, zp);
+            double vert_Eta = -log(tan(0.5 * vert_Theta));
             if (vert_mult_j1>0)
-                myfile << n_vert << " " << 1 << " " << vert_disp << " " << vert_mult_j1 << " " << vert_PT_j1 << endl;
+                myfile << n_vert << " " << 1 << " " << vert_disp << " " << vert_mult_j1 << " " << vert_PT_j1 << " " << vert_Eta << " " << vert_Phi << endl;
             if (vert_mult_j2>0)
-                myfile << n_vert << " " << 2 << " " << vert_disp << " " << vert_mult_j2 << " " << vert_PT_j2 << endl;
+                myfile << n_vert << " " << 2 << " " << vert_disp << " " << vert_mult_j2 << " " << vert_PT_j2 << " " << vert_Eta << " " << vert_Phi << endl;
             n_vert = n_vert + 1;
         }
     }
