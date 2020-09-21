@@ -333,9 +333,9 @@ void RaveGetVertsByJet(const char *inputFile, double dRjetsMax, int label, int m
                     double track_charge = double(t->charge());
                     double track_theta = atan2(pow(pow(track_px, 2) + pow(track_py, 2), 0.5), track_pz * track_charge);
                     double track_eta = -log(tan(0.5 * track_theta));
-                    double vert_Px += track_px;
-                    double vert_Py += track_py;
-                    double vert_Eta += track_eta;
+                    vert_Px += track_px;
+                    vert_Py += track_py;
+                    vert_Eta += track_eta;
                   }
             }
             double vert_disp = pow(pow(xp, 2) + pow(yp, 2), 0.5);
