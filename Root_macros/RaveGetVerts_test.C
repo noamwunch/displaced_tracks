@@ -299,7 +299,7 @@ void RaveGetVerts_test(const char *inputFile, double dRjetsMax, int label, int m
             myfile << "    Jet 2    pT: " << PTJ[1] << " eta: " << EtaJ[1] << " phi: " << PhiJ[1]
                    << endl;
         if (JetJ[0])
-            myfile << "n_vert n_jet vert_D0 vert_mult vert_PT" << endl;
+            myfile << "n_vert n_jet vert_D0 vert_mult vert_PT vert_Eta vert_Phi" << endl;
         // Vertexing
         vector <rave::Track> event_tracks;
         //Loop over tracks
