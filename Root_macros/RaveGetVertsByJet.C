@@ -343,7 +343,6 @@ void RaveGetVertsByJet(const char *inputFile, double dRjetsMax, int label, int m
             //Check for distance from both jets
             deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5);
             deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5);
-            vector <rave::Track> tracks = (*r).tracks();
             if (deltaR1 < dRjetsMax)
                 myfile << n_vert << " " << 1 << " " << vert_disp << " " << vert_mult << " " << vert_PT << endl;
             if (deltaR2 < dRjetsMax)
