@@ -195,6 +195,7 @@ void RaveGetVertsByJetv2(const char *inputFile, double dRjetsMax, int label, int
     double yp;
     double zp;
     double chisq;
+    vector <rave::Track> tracks;
     int n_jet;
     int n_vert;
     // Create vertex factory
@@ -315,12 +316,18 @@ void RaveGetVertsByJetv2(const char *inputFile, double dRjetsMax, int label, int
         vector <rave::Vertex> event_vertices = factory.create(event_tracks); // Reconstruct vertices
         // Loop over vertices
         for (vector<rave::Vertex>::const_iterator r = event_vertices.begin(); r != event_vertices.end(); ++r) {
+            // Extract vertex info
             xp = (*r).position().x() * 10; //Converting to mm (RAVE produces output in cm)
             yp = (*r).position().y() * 10;
             zp = (*r).position().z() * 10;
             chisq = (*r).chiSquared();
-            vector <rave::Track> tracks = (*r).tracks();
-            // Loop over vertex constituents
+            tracks = (*r).tracks();
+            // Track features
+            double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
+            double vert_Phi = atan2(yp, xp);
+            double vert_Theta = atan2(vert_D0, zp);
+            double vert_Eta = -log(tan(0.5 * vert_Theta));
+            // Loop over vertex constituents for track features
             double vert_Px = 0;
             double vert_Py = 0;
             double vert_mult =0;
@@ -332,12 +339,9 @@ void RaveGetVertsByJetv2(const char *inputFile, double dRjetsMax, int label, int
                     vert_Py += track_py;
                   }
             double vert_PT = pow(pow(vert_Px, 2) + pow(vert_Py, 2), 0.5);
-            double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
-            double vert_Phi = atan2(yp, xp);
-            double vert_Eta = atan2(vert_D0, zp);
-            //Check for distance from both jets
-            deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5);
-            deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5);
+            // Assign vertex to jet and write
+            deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5); //Check for distance from jet 1
+            deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5); //Check for distance from jet 2
             if (deltaR1 < dRjetsMax)
                 myfile << n_vert << " " << 1 << " " << vert_D0 << " " << vert_mult << " " << vert_PT << endl;
             if (deltaR2 < dRjetsMax)
