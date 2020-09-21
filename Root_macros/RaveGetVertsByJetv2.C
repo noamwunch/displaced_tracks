@@ -333,8 +333,8 @@ void RaveGetVertsByJetv2(const char *inputFile, double dRjetsMax, int label, int
                   }
             double vert_PT = pow(pow(vert_Px, 2) + pow(vert_Py, 2), 0.5);
             double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
-            double vert_Phi = atan2(yp, xp)
-            double vert_Eta = atan2(vert_D0, zp)
+            double vert_Phi = atan2(yp, xp);
+            double vert_Eta = atan2(vert_D0, zp);
             //Check for distance from both jets
             deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5);
             deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5);
