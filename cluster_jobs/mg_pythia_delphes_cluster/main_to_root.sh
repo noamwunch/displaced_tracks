@@ -23,6 +23,16 @@ export ROOT_INCLUDE_PATH="/gpfs0/kats/projects/rave/include:$ROOT_INCLUDE_PATH"
 cp -r /gpfs0/kats/users/wunch/dark_jets_repo/cluster_jobs/mg_pythia_delphes_cluster $TMPDIR/mg_pythia_delphes_cluster
 cd $TMPDIR/mg_pythia_delphes_cluster
 
+rm Settings.txt
+if [ "$3" = "0" ]; then
+	cp Settings_bb.txt Settings.txt
+	cp ./Grid_bb.dat Grid.dat
+else
+	cp Settings_dark.txt Settings.txt
+	cp ./Grid_dark.dat Grid.dat
+fi
+
+	
 #1) Read settings
 . ./Source/Setting_reader.sh $1
 
@@ -50,7 +60,9 @@ cd $ScriptPath/CaseIandII
 set fortran_compiler /usr/bin/gfortran
 launch run_a$i
 EOF
+
 cd $ScriptPath
+#set fortran_compiler /usr/bin/gfortran
 
 nameRun="run_a"
 
