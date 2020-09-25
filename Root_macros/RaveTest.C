@@ -214,7 +214,6 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
         myfile << "--  Event " << entry << "  --" << endl;
         met = (MissingET *) branchMissingET->At(0);
         myfile << "    MET: " << met->MET << endl; // Event mission energy
-        myfile << "    Number of vertices: " << branchVertex->GetEntriesFast() << endl;
         // Get leading jets
         double EtaJ[2] = {-1000, -1000};
         double PhiJ[2] = {0, 0};
