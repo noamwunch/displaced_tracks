@@ -203,7 +203,8 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
     float Bz = 2.0;   // Magnetic field
     rave::ConstantMagneticField mfield(0., 0., Bz);
     rave::VertexFactory factory(mfield);
-    factory.setDefaultMethod("avr-minweight:0.5-primcut:2-seccut:6");
+    //factory.setDefaultMethod("avr-minweight:0.5-primcut:2-seccut:6");
+    factory.setDefaultMethod("avr-minweight:0.5-primcut:3-seccut:3");
     // Loop over all events (except first one)
     Long64_t entry;
     Int_t i, pdgCode;
