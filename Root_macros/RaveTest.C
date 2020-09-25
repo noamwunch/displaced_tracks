@@ -346,13 +346,13 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
             deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5); //Check for distance from jet 1
             deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5); //Check for distance from jet 2
             if ((deltaR1 < dRjetsMax) & (deltaR2 > dRjetsMax))
-                myfile << n_vert << " " << 1 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+                myfile << n_vert << " " << 1 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             if ((deltaR2 < dRjetsMax) & (deltaR1 > dRjetsMax))
-                myfile << n_vert << " " << 2 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+                myfile << n_vert << " " << 2 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             if ((deltaR2 < dRjetsMax) & (deltaR1 < dRjetsMax))
-                myfile << n_vert << " " << "1 and 2" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+                myfile << n_vert << " " << "1 and 2" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             if ((deltaR2 > dRjetsMax) & (deltaR1 > dRjetsMax))
-                myfile << n_vert << " " << "none" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+                myfile << n_vert << " " << "none" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             n_vert = n_vert + 1;
         }
     }
