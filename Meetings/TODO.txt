@@ -1,7 +1,7 @@
 TODO
 1. Single track vertex.
 2. Event level multiplicity.
-3. Assigne vertices to jet as opposed to tracks.
+3. Assign vertices to jet as opposed to tracks.
 4. Primary vertex multiplicity.
 5. Momentum fraction in primary vertex.
 

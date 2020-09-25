@@ -60,7 +60,7 @@ def lstm_mask(n_constits, feats):
     # Define model
     model = Sequential()
     model.add(Masking(mask_value=-10.0, input_shape=(n_constits, len(feats))))
-    model.add(LSTM(50, activation='relu', return_sequences=False))
+    model.add(LSTM(50, return_sequences=False))
     model.add(Dense(16, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
 
