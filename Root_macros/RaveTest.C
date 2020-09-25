@@ -359,7 +359,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
     myfile << "Done" << endl;
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     std::cout << "Elapsed time = " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " s" << endl;
-    std::cout << abs(Pi/2) << endl;
+    std::cout << abs(PI/2) << endl;
     delete treeReader;
     delete chain;
 }
