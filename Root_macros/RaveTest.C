@@ -164,7 +164,6 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
     TClonesArray *branchTrack = treeReader->UseBranch("Track");
     //TClonesArray *branchTower    = treeReader->UseBranch("Tower");
     TClonesArray *branchMissingET = treeReader->UseBranch("MissingET");
-    TClonesArray *branchVertex = treeReader->UseBranch("Vertex");
     //File info
     Long64_t allEntries = treeReader->GetEntries();
     myfile << "** Chain contains " << allEntries << " events" << endl;
@@ -303,7 +302,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
             myfile << "    Jet 2    pT: " << PTJ[1] << " eta: " << EtaJ[1] << " phi: " << PhiJ[1]
                    << endl;
         if (JetJ[0])
-            myfile << "n_vert n_jet vert_D0 vert_mult vert_PT vert_Eta vert_Phi" << endl;
+            myfile << "n_ vert jet_association sum_sqr_PT vert_mult vert_ D0 vert_Eta vert_Phi vert_chisq" << endl;
         // Vertexing
         vector <rave::Track> event_tracks;
         //Loop over tracks
@@ -333,22 +332,28 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
             // Loop over vertex constituents for track features
             double vert_Px = 0;
             double vert_Py = 0;
-            double vert_mult =0;
+            double vert_mult = 0;
+            double vert_sum_sqr_PT = 0;
             for (vector<rave::Track>::const_iterator t = tracks.begin(); t != tracks.end(); ++t) {
                     vert_mult ++;
                     double track_px = t->momentum().x();
                     double track_py = t->momentum().y();
                     vert_Px += track_px;
                     vert_Py += track_py;
+                    vert_sum_sqr_PT = vert_sum_sqr_PT + pow(track_px, 2) + pow(track_py, 2)
                   }
             double vert_PT = pow(pow(vert_Px, 2) + pow(vert_Py, 2), 0.5);
             // Assign vertex to jet and write
             deltaR1 = pow(pow(vert_Eta - EtaJ[0], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[0]), 2), 0.5); //Check for distance from jet 1
             deltaR2 = pow(pow(vert_Eta - EtaJ[1], 2) + pow(delta_phi_calculator(vert_Phi, PhiJ[1]), 2), 0.5); //Check for distance from jet 2
-            if (deltaR1 < dRjetsMax)
-                myfile << n_vert << " " << 1 << " " << vert_D0 << " " << vert_mult << " " << vert_PT << " " << vert_Eta << " " << vert_Phi << endl;
-            if (deltaR2 < dRjetsMax)
-                myfile << n_vert << " " << 2 << " " << vert_D0 << " " << vert_mult << " " << vert_PT << " " << vert_Eta << " " << vert_Phi << endl;
+            if ((deltaR1 < dRjetsMax) & (deltaR2 > dRjetsMax))
+                myfile << n_vert << " " << 1 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+            if ((deltaR2 < dRjetsMax) & (deltaR1 > dRjetsMax))
+                myfile << n_vert << " " << 2 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+            if ((deltaR2 < dRjetsMax) & (deltaR1 < dRjetsMax))
+                myfile << n_vert << " " << "1 and 2" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
+            if ((deltaR2 > dRjetsMax) & (deltaR1 > dRjetsMax))
+                myfile << n_vert << " " << "none" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << chisq << endl;
             n_vert = n_vert + 1;
         }
     }
