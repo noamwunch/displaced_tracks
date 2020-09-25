@@ -339,7 +339,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
                     double track_py = t->momentum().y();
                     vert_Px += track_px;
                     vert_Py += track_py;
-                    vert_sum_sqr_PT = vert_sum_sqr_PT + pow(track_px, 2) + pow(track_py, 2)
+                    vert_sum_sqr_PT = vert_sum_sqr_PT + pow(track_px, 2) + pow(track_py, 2);
                   }
             double vert_PT = pow(pow(vert_Px, 2) + pow(vert_Py, 2), 0.5);
             // Assign vertex to jet and write
