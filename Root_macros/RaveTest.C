@@ -326,7 +326,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
             // Track features
             double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
             double vert_Phi = atan2(yp, xp);
-            double vert_Theta = atan2(vert_D0, zp);
+            double vert_Theta = atan2(vert_D0, fabs(zp));
             double vert_Eta = -log(tan(0.5 * vert_Theta));
             // Loop over vertex constituents for track features
             double vert_Px = 0;
@@ -359,6 +359,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
     myfile << "Done" << endl;
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     std::cout << "Elapsed time = " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " s" << endl;
+    std::cout << abs(Pi/2) << enld;
     delete treeReader;
     delete chain;
 }
