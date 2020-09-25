@@ -301,7 +301,7 @@ void RaveTest(const char *inputFile, double dRjetsMax, int label, int max_ev, co
             myfile << "    Jet 2    pT: " << PTJ[1] << " eta: " << EtaJ[1] << " phi: " << PhiJ[1]
                    << endl;
         if (JetJ[0])
-            myfile << "n_ vert jet_association sum_sqr_PT vert_mult vert_ D0 vert_Eta vert_Phi vert_chisq" << endl;
+            myfile << "n_vert jet_association sum_sqr_PT vert_mult vert_ D0 vert_Eta vert_Phi vert_chisq" << endl;
         // Vertexing
         vector <rave::Track> event_tracks;
         //Loop over tracks
