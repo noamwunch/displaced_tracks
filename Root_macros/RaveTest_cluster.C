@@ -352,9 +352,9 @@ void RaveTest_cluster(const char *inputFile, double dRjetsMax, int label, int ma
             if ((deltaR2 < dRjetsMax) & (deltaR1 > dRjetsMax))
                 myfile << n_vert << " " << 2 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             if ((deltaR2 < dRjetsMax) & (deltaR1 < dRjetsMax))
-                myfile << n_vert << " " << "1 and 2" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
+                myfile << n_vert << " " << -1 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             if ((deltaR2 > dRjetsMax) & (deltaR1 > dRjetsMax))
-                myfile << n_vert << " " << "none" << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
+                myfile << n_vert << " " << -2 << " " << vert_sum_sqr_PT << " " << vert_mult << " " << vert_D0 << " " << vert_Eta << " " << vert_Phi << " " << deltaR1 << " " << deltaR2 << " " << chisq << endl;
             n_vert = n_vert + 1;
         }
     }
