@@ -1,6 +1,6 @@
 #!/bin/bash
 
-macro=GetTracks
+macro=RaveGetVerts
 max_ev=1000000
 
 for root_file in /gpfs0/kats/users/wunch/cluster_out/bb*.root
