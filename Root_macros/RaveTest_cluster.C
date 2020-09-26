@@ -18,9 +18,9 @@ Comments:
 #endif
 
 #ifdef __CLING__
-R__LOAD_LIBRARY(/usr/local/lib/libRaveBase.so)
-R__LOAD_LIBRARY(/usr/local/lib/libRaveCore.so)
-R__LOAD_LIBRARY(/usr/local/lib/libRaveVertex.so)
+R__LOAD_LIBRARY(/gpfs0/kats/projects/rave/lib/libRaveBase.so)
+R__LOAD_LIBRARY(/gpfs0/kats/projects/rave/lib/libRaveCore.so)
+R__LOAD_LIBRARY(/gpfs0/kats/projects/rave/lib/libRaveVertex.so)
 
 #include "/gpfs0/kats/projects/rave/include/rave/Version.h"
 #include "/gpfs0/kats/projects/rave/include/rave/VertexFactory.h"
