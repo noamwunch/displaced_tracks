@@ -345,6 +345,61 @@ def events_to_df_vert2(events_paths, label, max_ev=int(1e5), n_constits=15, PT_c
     jets_df["label"] = label
     return jets_df
 
+def events_to_df_vert3(events_paths, label, max_ev=int(1e5), n_constits=5, trunc=False):
+    """Takes event list path (string) and returns a pandas Dataframe with vertex info"""
+    ev_num = 0  # Event number
+    met = 0  # Missing transverse energy
+    event_list = []
+    jet1_info = []
+    jet2_info = []
+    event_verts = []
+    if type(events_paths) != list:
+        events_paths = [events_paths]
+    for events_path in events_paths:
+        with open(events_path) as events:
+            for line in events:
+                row = line.split()
+                # New event
+                if row[0] == "--":
+                    if ev_num > 0:
+                        if jet1_info and jet2_info and event_verts:
+                            event_verts = np.array(event_verts, dtype="float")
+                            event_verts = event_verts[event_verts[:, 2].argsort()[::-1]]
+                            event_list.append([ev_num, met] + jet1_info + jet2_info + list(event_verts.T))
+                        jet1_info = []
+                        jet2_info = []
+                        event_verts = []
+                    ev_num += 1
+                    if ev_num > max_ev:
+                        break
+                    continue
+                # MET
+                if row[0] == "MET:":
+                    met = row[1]
+                    continue
+                # General jet info
+                if row[0] == "Jet":
+                    if int(row[1]) == 1:
+                        jet1_info = [row[3], row[5], row[7]]
+                        continue
+                    if int(row[1]) == 2:
+                        jet2_info = [row[3], row[5], row[7]]
+                        continue
+                # Constituents info
+                if row[0].isdigit():
+                    event_verts.append(row)
+    jets_df = pd.DataFrame(event_list,
+                           columns=["Event", "MET", "jet1_PT", "jet1_Eta", "jet1_Phi", "jet2_PT", "jet2_Eta", "jet2_Phi",
+                                    "n_vert", "jet_association", "sum_sqr_PT", "vert_mult", "vert_D0", "vert_Eta", "vert_Phi", "deltaR1", "deltaR2", "vert_chisq"])
+    dtypes = {"Event": np.int, "MET": np.float, "jet1_PT": np.float, "jet1_Eta": np.float, "jet1_Phi": np.float, "jet2_PT": np.float, "jet2_Eta": np.float, "jet2_Phi": np.float}
+    jets_df = jets_df.astype(dtypes)
+    vert_feats = ["n_vert", "jet_association", "sum_sqr_PT", "vert_mult", "vert_D0", "vert_Eta", "vert_Phi", "deltaR1", "deltaR2", "vert_chisq"]
+    if trunc:
+        jets_df[vert_feats] = jets_df[vert_feats].applymap(lambda x: np.append(x[:n_constits], [-10] * (n_constits - len(x))))
+    else:
+        jets_df[vert_feats] = jets_df[vert_feats].applymap(lambda x: np.array(x))
+    jets_df["label"] = label
+    return jets_df
 
 def events_to_df_vert1(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT", trunc=True):
     """Takes event list path (string) and returns a pandas Dataframe with vertex info"""
