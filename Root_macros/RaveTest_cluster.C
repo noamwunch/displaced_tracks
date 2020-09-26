@@ -203,7 +203,7 @@ void RaveTest_cluster(const char *inputFile, double dRjetsMax, int label, int ma
     float Bz = 2.0;   // Magnetic field
     rave::ConstantMagneticField mfield(0., 0., Bz);
     rave::VertexFactory factory(mfield);
-    factory.setDefaultMethod("avr);
+    factory.setDefaultMethod("avr");
     //factory.setDefaultMethod("avr-minweight:0.5-primcut:2-seccut:6"); // Supposed default setting
     //factory.setDefaultMethod("avr-minweight:0.5-primcut:3-seccut:3");
     Loop over all events (except first one)
