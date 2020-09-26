@@ -206,7 +206,7 @@ void RaveTest_cluster(const char *inputFile, double dRjetsMax, int label, int ma
     factory.setDefaultMethod("avr");
     //factory.setDefaultMethod("avr-minweight:0.5-primcut:2-seccut:6"); // Supposed default setting
     //factory.setDefaultMethod("avr-minweight:0.5-primcut:3-seccut:3");
-    Loop over all events (except first one)
+    //Loop over all events (except first one)
     Long64_t entry;
     Int_t i, pdgCode;
     for (entry = 1; (entry < allEntries)&&(entry < max_ev); ++entry) {
