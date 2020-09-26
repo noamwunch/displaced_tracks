@@ -327,6 +327,7 @@ void RaveTestAbsZ(const char *inputFile, double dRjetsMax, int label, int max_ev
             double vert_D0 = pow(pow(xp, 2) + pow(yp, 2), 0.5);
             double vert_Phi = atan2(yp, xp);
             double vert_Theta = atan2(vert_D0, abs(zp));
+            if (zp<0) vert_Theta = PI - vert_Theta;
             double vert_Eta = -log(tan(0.5 * vert_Theta));
             // Loop over vertex constituents for track features
             double vert_Px = 0;
