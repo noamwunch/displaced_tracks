@@ -24,8 +24,9 @@ PT_cut = (100, 200)
 val_frac = 0.2
 analysis_dir = "Analysis/Semi-supervised/"
 #### Inputs
-N = float(sys.argv[1])
-r = float(sys.argv[2])
+epochs = int(sys.argv[1])
+N = float(sys.argv[2])
+r = float(sys.argv[3])
 
 #### Preprocessing
 # Load signal and background
