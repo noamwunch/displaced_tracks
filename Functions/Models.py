@@ -32,7 +32,6 @@ def lstm(n_constits, feats):
     model.add(LSTM(50, activation='relu', input_shape=(n_constits, len(feats)), return_sequences=False))
     model.add(Dense(16, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
-
     # Compile
     sgd = keras.optimizers.Adam(learning_rate=0.001)
     model.compile(optimizer=sgd, loss='binary_crossentropy')
@@ -63,7 +62,6 @@ def lstm_mask(n_constits, feats):
     model.add(LSTM(50, return_sequences=False))
     model.add(Dense(16, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
-
     # Compile
     sgd = keras.optimizers.Adam(learning_rate=0.001)
     model.compile(optimizer=sgd, loss='binary_crossentropy')
@@ -71,15 +69,12 @@ def lstm_mask(n_constits, feats):
     print("")
     return model
 
-def train(model, X_train, y_train, X_val, y_val, name):
+def train(model, X_train, y_train, X_val, y_val, name, epochs=100):
     # Callbacks
-    checkpoint = tf.keras.callbacks.ModelCheckpoint("Models/"+name, verbose=1, monitor='val_loss', save_best_only=True,
-                                                    mode='auto')
-    es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=0.001, patience=5, verbose=1, mode="auto",
-                                          baseline=None, restore_best_weights=False)
-
+    checkpoint = tf.keras.callbacks.ModelCheckpoint("Models/"+name, verbose=1, monitor='val_loss', save_best_only=True, mode='auto')
+    es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=0.001, patience=5, verbose=2, mode="auto", baseline=None, restore_best_weights=False)
     # Train model
-    model.fit(X_train, y_train, batch_size=1000, epochs=100, validation_data=(X_val, y_val), callbacks=[checkpoint, es])
+    model.fit(X_train, y_train, batch_size=1000, epochs=epochs, validation_data=(X_val, y_val), callbacks=[checkpoint, es])
 
 
 
