@@ -1,5 +1,6 @@
 #### Dependencies
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -22,6 +23,8 @@ jet_feats = ["jet_PT", "jet_Eta", "jet_Phi"]
 PT_cut = (100, 200)
 val_frac = 0.2
 analysis_dir = "Analysis/Semi-supervised/"
+#### Inputs
+r = float(sys.argv[1])
 
 #### Preprocessing
 # Load signal and background
