@@ -24,9 +24,11 @@ PT_cut = (100, 200)
 val_frac = 0.2
 analysis_dir = "Analysis/Semi-supervised/"
 #### Inputs
-epochs = int(sys.argv[1])
-N = float(sys.argv[2])
-r = float(sys.argv[3])
+analysis_dir = str(sys.argv[1])
+epochs = int(sys.argv[2])
+N = float(sys.argv[3])
+r = float(sys.argv[4])
+os.makedirs(analysis_dir, exist_ok=True)
 
 #### Preprocessing
 # Load signal and background
@@ -66,7 +68,7 @@ S_tag_SNR = len(data[(data.j1_mult_cut == 1) & (data.label == 1)]) / len(data[(d
 print("#B' = ", len(data[(data.j1_mult_cut == 0)]), " with S/B of ", B_tag_SNR)
 print("#S' = ", len(data[(data.j1_mult_cut == 1)]), " with S/B of ", S_tag_SNR)
 print("Background efficiencey of multiplicity cut is = ", len(data[(data.label == 0) & (data.j1_mult_cut == 1)])/len(data[data.label == 0]))
-print("Signal efficiencey of multiplicity cut is = ", len(data[(data.label==1) & (data.j1_mult_cut==1)])/len(data[data.label == 1]))
+print("Signal efficiencey of multiplicity cut is = ", len(data[(data.label == 1) & (data.j1_mult_cut == 1)])/len(data[data.label == 1]))
 print("----------")
 #### Train classifier to distinguish between S' anb B' using jet2 features
 # Preprocessing for NN
@@ -110,9 +112,8 @@ plt.annotate('Background rejection @{} Signal efficiency = {:.2e}'.format(closes
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
 plt.gcf().set_size_inches(8.3, 5.85)
-plt.savefig(analysis_dir + "ROC_" + model_name + ".pdf", format="pdf")
-plt.savefig(analysis_dir + "ROC_" + model_name + ".svg", format="svg")
-plt.show()
+plt.savefig(analysis_dir + "cnn_ROC_" + model_name + ".pdf", format="pdf")
+plt.savefig(analysis_dir + "cnn_ROC_" + model_name + ".svg", format="svg")
 # Multiplicity cut ROC curve
 bkg_eff = []
 sig_eff = []
@@ -133,13 +134,13 @@ plt.annotate(model_name + ' Background rejection @{} Signal efficiency = {:.2e}'
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
 plt.gcf().set_size_inches(8.3, 5.85)
-plt.savefig(analysis_dir + "ROC_" + model_name + ".pdf", format="pdf")
-plt.savefig(analysis_dir + "ROC_" + model_name + ".svg", format="svg")
+plt.savefig(analysis_dir + "multcut_ROC_" + model_name + ".pdf", format="pdf")
+plt.savefig(analysis_dir + "multcut_ROC_" + model_name + ".svg", format="svg")
 # NN output vs multiplicity cut histograms
 plt.figure()
 data[(data.label == 1)].nn_out.hist(range=[0, 1], color='black')
 data[(data.label == 0)].nn_out.hist(range=[0, 1], color='black')
 data[(data.label == 1)].j1_mult_cut.hist(range=[0, 1], color='red')
 data[(data.label == 0)].j1_mult_cut.hist(range=[0, 1], color='red')
-plt.savefig(analysis_dir + "ROC_" + model_name + ".pdf", format="pdf")
+plt.savefig(analysis_dir + "seperation_hist_" + model_name + ".pdf", format="pdf")
 
