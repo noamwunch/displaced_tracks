@@ -72,7 +72,7 @@ print("Signal efficiencey of multiplicity cut is = ", len(data[(data.label == 1)
 print("----------")
 #### Train classifier to distinguish between S' anb B' using jet2 features
 # Preprocessing for NN
-data.track_PT2 = data.track_PT2 / data.track_PT2.map(np.max) # Scale and shift
+data.track_PT2 = data.track_PT2 / data.track_PT2.map(np.max)  # Scale and shift
 data.track_Eta2 = (data.track_Eta2 - data.jet_Eta2) * 10
 data.track_Phi2 = (data.track_Phi2 - data.jet_Phi2) * 10
 data.track_DZ2 = data.track_DZ2 / np.cosh(data.jet_Eta2)
@@ -105,7 +105,7 @@ for nn_thresh in np.arange(0, 1, 0.1):
     if abs(sig_eff_temp - 0.5) < abs(closest_half_sig_eff - 0.5):
         closest_half_sig_eff = sig_eff_temp
         bkg_eff_closest_half_sig_eff = bkg_eff_temp
-plt.plot(bkg_eff, sig_eff)
+plt.plot(sig_eff, bkg_eff, '--k')
 plt.xlim([0, 1])
 plt.ylim([0, 1])
 plt.annotate('Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.95), xycoords='axes fraction')
@@ -120,27 +120,29 @@ sig_eff = []
 closest_half_sig_eff = 0
 bkg_eff_closest_half_sig_eff = 0
 for mult_threshold in np.arange(1, 50):
-    bkg_eff_temp = len(data[(data.label == 0) & (data.j1_mult>mult_threshold)])/len(data[data.label == 0])
-    sig_eff_temp = len(data[(data.label == 1) & (data.j1_mult>mult_threshold)])/len(data[data.label == 1])
+    bkg_eff_temp = len(data[(data.label == 0) & (data.j1_mult > mult_threshold)])/len(data[data.label == 0])
+    sig_eff_temp = len(data[(data.label == 1) & (data.j1_mult > mult_threshold)])/len(data[data.label == 1])
     bkg_eff.append(bkg_eff_temp)
     sig_eff.append(sig_eff_temp)
     if abs(sig_eff_temp - 0.5) < abs(closest_half_sig_eff - 0.5):
         closest_half_sig_eff = sig_eff_temp
         bkg_eff_closest_half_sig_eff = bkg_eff_temp
-plt.plot(bkg_eff, sig_eff)
-plt.xlim([0,1])
-plt.ylim([0,1])
-plt.annotate(model_name + ' Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.95), xycoords='axes fraction')
+plt.plot(sig_eff, bkg_eff, '-r')
+plt.xlim([0, 1])
+plt.ylim([0, 1])
+plt.annotate(model_name + ' Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.88), xycoords='axes fraction')
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
+plt.legend(["NN", "Multiplicity cut"])
 plt.gcf().set_size_inches(8.3, 5.85)
 plt.savefig(analysis_dir + "multcut_ROC_" + model_name + ".pdf", format="pdf")
 plt.savefig(analysis_dir + "multcut_ROC_" + model_name + ".svg", format="svg")
 # NN output vs multiplicity cut histograms
 plt.figure()
-data[(data.label == 1)].nn_out.hist(range=[0, 1], color='black')
-data[(data.label == 0)].nn_out.hist(range=[0, 1], color='black')
-data[(data.label == 1)].j1_mult_cut.hist(range=[0, 1], color='red')
-data[(data.label == 0)].j1_mult_cut.hist(range=[0, 1], color='red')
+data[(data.label == 1)].nn_out.hist(range=[0, 1], color='black', histtype="step", hatch="x")
+data[(data.label == 0)].nn_out.hist(range=[0, 1], color='black', histtype="step", hatch="o")
+data[(data.label == 1)].j1_mult_cut.hist(range=[0, 1], color='red', histtype="step", hatch="x")
+data[(data.label == 0)].j1_mult_cut.hist(range=[0, 1], color='red', histtype="step", hatch="o")
+plt.legend(["Signal - NN", "Background - NN", "Signal - multiplicity cut", "Background - multiplicity cut"])
 plt.savefig(analysis_dir + "seperation_hist_" + model_name + ".pdf", format="pdf")
 
