@@ -93,7 +93,7 @@ def events_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(14
     return jets_df
 
 
-def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(140, 160), sort="PT"):
+def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, trunc=True, PT_cut=(140, 160), sort="PT"):
     """Takes event list path (string) and returns a pandas Dataframe with jet info"""
     # PT cut
     PT_min = PT_cut[0]
@@ -166,8 +166,10 @@ def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(14
     jets_df = jets_df.astype(dtypes)
     track_feats = ["track_PT", "track_Eta", "track_Phi", "track_D0", "track_DZ"]
 
-    jets_df[track_feats] = jets_df[track_feats].applymap(
-        lambda x: np.append(x[:n_constits], [0] * (n_constits - len(x))))
+    if trunc:
+        jets_df[track_feats] = jets_df[track_feats].applymap(lambda x: np.append(x[:n_constits], [0] * (n_constits - len(x))))
+    else:
+        jets_df[track_feats] = jets_df[track_feats].applymap(lambda x: np.array(x))
 
     jets_df["label"] = label
 
