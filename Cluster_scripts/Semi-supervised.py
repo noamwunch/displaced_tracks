@@ -85,7 +85,7 @@ y_train = data.iloc[train_ind]["j1_mult_cut"]
 y_val = data.loc[val_ind]["j1_mult_cut"]
 # Train
 model = lstm_mask(n_constits, feats)
-train(model, X_train, y_train, X_val, y_val, model_name, epochs=100)
+train(model, X_train, y_train, X_val, y_val, model_name, epochs=epochs)
 #### Seperate data into two groups S_pred B_pred by cutting on jet2 classification output
 model = tf.keras.models.load_model("Models/"+model_name)
 data["nn_out"] = model.predict(j2_feats_for_nn).flatten()
@@ -104,8 +104,8 @@ for nn_thresh in np.arange(0, 1, 0.1):
         closest_half_sig_eff = sig_eff_temp
         bkg_eff_closest_half_sig_eff = bkg_eff_temp
 plt.plot(bkg_eff, sig_eff)
-plt.xlim([0 ,1])
-plt.ylim([0 ,1])
+plt.xlim([0, 1])
+plt.ylim([0, 1])
 plt.annotate('Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.95), xycoords='axes fraction')
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
