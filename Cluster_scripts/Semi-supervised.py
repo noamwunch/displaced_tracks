@@ -6,15 +6,15 @@ import pandas as pd
 from Functions.Preprocess import tracks_to_df
 from Functions.Models import train, lstm_mask
 import tensorflow as tf
-os.chdir("/gpfs0/kats/users/noamwunch/dark_jets_repo/")
+os.chdir("/gpfs0/kats/users/wunch/dark_jets_repo/")
 #### Parameters
 N = 100000  # Total number of events in data
 max_ev = 6*N  # Maximum number of events to load (before PT and 2jet cuts)
 r = 0.5  # Signal proportion from total events
 mult_thresh = 20  # Jet1 multiplicity threshold for initial cut
 model_name = "lstm_mask"  # Model for classification
-bkg_path = ["/gpfs0/kats/users/noamwunch/cluster_out/bb{}.root.GetTracks.txt".format(i) for i in range(1, 3)]
-sig_path = ["/gpfs0/kats/users/noamwunch/cluster_out/dark{}.root.GetTracks.txt".format(i) for i in range(1, 3)]
+bkg_path = ["/gpfs0/kats/users/wunch/cluster_out/bb{}.root.GetTracks.txt".format(i) for i in range(1, 3)]
+sig_path = ["/gpfs0/kats/users/wunch/cluster_out/dark{}.root.GetTracks.txt".format(i) for i in range(1, 3)]
 n_constits = 30
 sort = "D0"
 feats = ["track_D0", "track_DZ"] + ["track_PT", "track_Eta", "track_Phi"] 
