@@ -49,7 +49,7 @@ do
 #4) Mass reader
 . ./Source/Mass_reader.sh
 echo "mass reader"
-
+rinv=$4
 #5) Prepare cards
 . ./Source/Prepare_cards.sh
 echo "prepare cards"

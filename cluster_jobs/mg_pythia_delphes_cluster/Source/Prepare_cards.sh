@@ -31,4 +31,8 @@ sed -i -e "s/ReplacemL/$mL/g" param_card.dat
 sed -i -e "s/ReplacemE/$mE/g" param_card.dat
 sed -i -e "s/ReplacemN/$mN/g" param_card.dat
 
+echo "-------------------------------------------------------"
+echo "$rinv"
+echo "$rvis"
+
 cd $ScriptPath

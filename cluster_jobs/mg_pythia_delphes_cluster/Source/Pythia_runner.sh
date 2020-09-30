@@ -13,7 +13,9 @@ cp main_hidden_valley_6.cmd $ScriptPath/examples/main_hidden_valley_6.cmd
 cd $ScriptPath/examples
 sed -i -e "s/rinv/$rinv/g" main_hidden_valley_6.cmd
 sed -i -e "s/rvis/$rvis/g" main_hidden_valley_6.cmd
-
+echo "-------------------------------------------------------"
+echo "$rinv"
+echo "$rvis"
 # Introduce new parameters
 sed -i -e "s/Removenfl/$nf025ns/g" main_hidden_valley_6.cmd
 sed -i -e "s/RemovenGauge /$nGauge/g" main_hidden_valley_6.cmd

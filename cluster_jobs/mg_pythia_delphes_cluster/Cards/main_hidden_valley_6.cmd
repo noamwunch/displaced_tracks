@@ -25,28 +25,28 @@ HiddenValley:fragment        = on                ! fragmentation for hidden vall
 HiddenValley:FSR             = on                ! final state radiation for hidden valley particles (initial state radiation obviously doesn't exist)
 
 ! Spin information
-HiddenValley:spinFv          = 0      ! spin of mediator
-HiddenValley:spinqv          = 1      ! spin of dark quark (Note: if FV is a boson than qv is automatically assigned a spin of 1/2)
+HiddenValley:spinFv          = RemovespinFV      ! spin of mediator
+HiddenValley:spinqv          = Removespinqv      ! spin of dark quark (Note: if FV is a boson than qv is automatically assigned a spin of 1/2)
 
 ! Running information
 HiddenValley:alphaOrder      = 1                 ! whether to (1) run alphaHV or (0) not
-HiddenValley:nFlav           =  1.0         ! number of dark flavors
-HiddenValley:Ngauge          =  3     ! number of dark QCD colours
-HiddenValley:Lambda          =  10.0     ! dark confinement scale (should be larger than the dark quark mass, e.g. 1.1 * 4900101:m0)
-HiddenValley:pTminFSR        = 11.0	     ! pT cutoff for dark shower
+HiddenValley:nFlav           = Removenfl         ! number of dark flavors
+HiddenValley:Ngauge          = RemovenGauge      ! number of dark QCD colours
+HiddenValley:Lambda          = RemovelambdaD     ! dark confinement scale (should be larger than the dark quark mass, e.g. 1.1 * 4900101:m0)
+HiddenValley:pTminFSR        = RemovepTmin	     ! pT cutoff for dark shower
 
 ! Vector meson information
-HiddenValley:probVector      =  0.75       ! probability to create vector mesons (the default value of 0.75 is what is expected from a naive spin count)
+HiddenValley:probVector      = RemoveProbV       ! probability to create vector mesons (the default value of 0.75 is what is expected from a naive spin count)
 
 ! Mass information
-4900101:m0                   =  1.0  ! dark quark mass
-4900111:m0                   =  10.0   ! dark pion mass
-4900113:m0                   =  21.0    ! dark rho mass
+4900101:m0                   = RemoveDquarkMass  ! dark quark mass
+4900111:m0                   = RemoveDpionMass   ! dark pion mass
+4900113:m0                   = RemoveDRhoMass    ! dark rho mass
 
 ! Decay length information
-4900111:tau0                 =  0.5 ! dark scalar (pion) lifetime (in mm)
+4900111:tau0                 = RemovedecayLength ! dark scalar (pion) lifetime (in mm)
 
 ! Branching ratio information
-4900111:0:all on 0.0 102 12 -12                 ! dark pion decay to neutrinos
-4900111:addchannel on 01.0 102 1 -1     	     ! dark pion decay to down quarks
+4900111:0:all on rinv 102 12 -12                 ! dark pion decay to neutrinos
+4900111:addchannel on rvis 102 1 -1     	     ! dark pion decay to down quarks
 4900113:0:all on 1.000 102 4900111 4900111       ! dark vector to dark pions 100%
