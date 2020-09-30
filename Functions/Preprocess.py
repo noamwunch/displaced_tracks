@@ -124,11 +124,13 @@ def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, trunc=True
                     if ev_num > 0:
                         if jet1_accept and jet1_track:
                             jet1_track = np.array(jet1_track, dtype="float")
-                            jet1_track = jet1_track[jet1_track[:, sort].argsort()[::-1]]
+                            if sort:
+                                jet1_track = jet1_track[jet1_track[:, sort].argsort()[::-1]]
                             jets_list.append(jet1_info + list(jet1_track.T))
                         if jet2_accept and jet2_track:
                             jet2_track = np.array(jet2_track, dtype="float")
-                            jet2_track = jet2_track[jet2_track[:, sort].argsort()[::-1]]
+                            if sort:
+                                jet2_track = jet2_track[jet2_track[:, sort].argsort()[::-1]]
                             jets_list.append(jet2_info + list(jet2_track.T))
                         jet1_accept = False
                         jet2_accept = False

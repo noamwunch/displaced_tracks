@@ -85,6 +85,8 @@ X_train = j2_feats_for_nn[train_ind]
 X_val = j2_feats_for_nn[val_ind]
 y_train = data.iloc[train_ind]["j1_mult_cut"]
 y_val = data.loc[val_ind]["j1_mult_cut"]
+
+
 # Train
 model = lstm_mask(n_constits, feats)
 train(model, X_train, y_train, X_val, y_val, model_name, epochs=epochs)
@@ -108,7 +110,7 @@ for nn_thresh in np.arange(0, 1, 0.1):
 plt.plot(sig_eff, bkg_eff, '--k')
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.annotate('Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.95), xycoords='axes fraction')
+plt.annotate('NN background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.95), xycoords='axes fraction')
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
 plt.gcf().set_size_inches(8.3, 5.85)
@@ -130,7 +132,7 @@ for mult_threshold in np.arange(1, 50):
 plt.plot(sig_eff, bkg_eff, '-r')
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.annotate(model_name + ' Background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.88), xycoords='axes fraction')
+plt.annotate('Multiplicity cut background rejection @{} Signal efficiency = {:.2e}'.format(closest_half_sig_eff, bkg_eff_closest_half_sig_eff), xy=(0.05, 0.88), xycoords='axes fraction')
 plt.xlabel("Signal efficiency")
 plt.ylabel("Background efficiency")
 plt.legend(["NN", "Multiplicity cut"])
