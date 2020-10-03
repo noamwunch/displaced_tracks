@@ -8,7 +8,7 @@ from Functions.Preprocess import tracks_to_df
 from Functions.Models import train, lstm_mask
 import tensorflow as tf
 os.chdir("/gpfs0/kats/users/wunch/dark_jets_repo/")
-#### Parameters
+#### Hard coded parameters
 N = 100000  # Total number of events in data
 max_ev = 5*N  # Maximum number of events to load (before PT and 2jet cuts)
 r = 0.5  # Signal proportion from total events
@@ -24,11 +24,14 @@ PT_cut = (100, 200)
 val_frac = 0.2
 analysis_dir = "Analysis/Semi-supervised/"
 #### Inputs
-analysis_dir = str(sys.argv[1])
-epochs = int(sys.argv[2])
-N = float(sys.argv[3])
-r = float(sys.argv[4])
-os.makedirs(analysis_dir, exist_ok=True)
+if sys.argv[0]:
+    analysis_dir = str(sys.argv[1])
+    epochs = int(sys.argv[2])
+    N = float(sys.argv[3])
+    r = float(sys.argv[4])
+    os.makedirs(analysis_dir, exist_ok=True)
+    bkg_path = ["/gpfs0/kats/users/wunch/cluster_out/bb{}.root.GetTracks.txt".format(i) for i in range(1, 5)]
+    sig_path = ["/gpfs0/kats/users/wunch/cluster_out/dark{}.root.GetTracks.txt".format(i) for i in range(1, 5)]
 
 #### Preprocessing
 # Load signal and background
