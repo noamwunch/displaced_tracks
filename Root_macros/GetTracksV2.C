@@ -37,7 +37,7 @@ double delta_phi_calculator(double phi1, double phi2) {
 }
 
 //Main code
-void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, const char *result) {
+void GetTracksV2(const char *inputFile, double dRjetsMax, int label, int max_ev, const char *result) {
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     //Prepare to write
     ofstream myfile;
