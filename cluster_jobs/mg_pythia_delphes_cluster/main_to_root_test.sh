@@ -1,19 +1,19 @@
 #!/bin/bash
-OutDir=/gpfs0/kats/users/wunch/cluster_out/dark
+OutDir=/gpfs0/kats/users/wunch/cluster_out/dark_test
 
 n_ev=5000
 rinv=0.5
 ProbV=0.50
-pTMin=150
+pTMin=300
 pTMax=500
 
-macro=GetTracks
+macro=GetTracksV2
 max_ev=50000
 dR=0.7
 label=1
 
 first_file=0
-n_files=200
+n_files=5
 
 mkdir -p $OutDir
 
