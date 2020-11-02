@@ -1,0 +1,14 @@
+Number of Background events with two jets is  6159  out of  9501
+Number of Signal events with two jets is  3118  out of  7419
+----------
+N =  1002
+#B =  501
+#S =  501
+----------
+#B' = 601 with S/(B+S) of 35.27%
+#S' = 401 with S/(B+S) of 72.07%
+Background efficiencey of multiplicity cut is 0.22
+Signal efficiencey of multiplicity cut is 0.58
+----------
+N_for_nn = 401
+NN input shape = (802, 50, 5)

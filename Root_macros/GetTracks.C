@@ -110,7 +110,9 @@ void GetTracks(const char *inputFile, double dRjetsMax, int label, int max_ev, c
                 //Check information
                 particle = (GenParticle *) object;
                 if (particle->PID == 4900101 && !p1Ass) {
-                    EtaP1 = particle->Eta;
+                    EtaP
+
+                    1 = particle->Eta;
                     PhiP1 = particle->Phi;
                     PTP1 = particle->PT;
                     p1Ass = true;

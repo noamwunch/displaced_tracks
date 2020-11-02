@@ -93,7 +93,7 @@ def events_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, PT_cut=(14
     return jets_df
 
 
-def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, trunc=True, PT_cut=(140, 160), sort="PT"):
+def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, trunc=True, PT_cut=(140, 160), sort=None):
     """Takes event list path (string) and returns a pandas Dataframe with jet info"""
     # PT cut
     PT_min = PT_cut[0]
@@ -124,12 +124,12 @@ def tracks_to_df(events_paths, label, max_ev=int(1e5), n_constits=15, trunc=True
                     if ev_num > 0:
                         if jet1_accept and jet1_track:
                             jet1_track = np.array(jet1_track, dtype="float")
-                            if sort:
+                            if sort is not None:
                                 jet1_track = jet1_track[jet1_track[:, sort].argsort()[::-1]]
                             jets_list.append(jet1_info + list(jet1_track.T))
                         if jet2_accept and jet2_track:
                             jet2_track = np.array(jet2_track, dtype="float")
-                            if sort:
+                            if sort is not None:
                                 jet2_track = jet2_track[jet2_track[:, sort].argsort()[::-1]]
                             jets_list.append(jet2_info + list(jet2_track.T))
                         jet1_accept = False
