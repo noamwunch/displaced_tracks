@@ -3,6 +3,9 @@ OutDir=/gpfs0/kats/users/wunch/cluster_out/
 n_files=10
 n_ev=50000
 rinv=0.5
+ProbV=0.5
+pTMin=100
+pTMax=150
 
 for ((j=0; j<n_files; j++))
 do	

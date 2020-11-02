@@ -35,7 +35,9 @@ fi
 	
 #1) Read settings
 . ./Source/Setting_reader.sh $1
-
+ProbV=$5
+pTMin=$6
+pTMax=$7
 echo "settings read"
 
 #2) Preliminary steps

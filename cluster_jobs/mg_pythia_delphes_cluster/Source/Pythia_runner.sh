@@ -39,6 +39,8 @@ sed -i -e "s/RemovespinFV/0/g" main_hidden_valley_6.cmd
 sed -i -e "s/Removespinqv/1/g" main_hidden_valley_6.cmd
 fi
 
+cat main_hidden_valley_6.cmd
+
 # Run Pythia
 ./main_Hidden_valley_6
 
